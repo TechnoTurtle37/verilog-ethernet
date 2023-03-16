@@ -1,15 +1,10 @@
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib import style
-import numpy as np
-import random
 import serial
 import time
 import database as db
 
 SERIAL_BAUDRATE = 115200
 SERIAL_TIMEOUT = .1
-SERIAL_PORT = 'COM4'
+SERIAL_PORT = 'COM8'
 REFRESH_SECONDS = 5
 PLOT_WIDTH = 10
 WRITE_FILE = "./data.csv"
@@ -40,9 +35,15 @@ def main():
 
     while(True):
         # Assuming data read in is "url,count"
-        new_data = ser.readline().split(b',')
+        new_data_bytes = ser.readline()
+        if not new_data_bytes:
+            continue
+        new_data_str = new_data_bytes.decode().strip()
+        print(f"Serial: Reading {new_data_str}")
+        new_data = new_data_str.split(", ")
         url = new_data[0]
-        count = new_data[1]
+        count = int(new_data[1])
+        print(f"Adding ({url}, {count}) to database\n")
         db.push(url, count)
         db.export()
         time.sleep(REFRESH_SECONDS)

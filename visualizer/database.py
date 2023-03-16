@@ -1,9 +1,13 @@
 class Database:
-    def __init__(self, top_n_width):
+    def __init__(self, top_n_width, file):
         self.top_n_width = top_n_width # The amount of most queried urls stored in the most_accessed list at once.
         self.dns_dict = dict() # A dictionary containing all queried urls as keys and their query count as the value.
         self.most_accessed = [] # A sorted list of tuples containing the top queried urls and their associated query count.
         self.bottom_top_n = 0 # The query count of the lowest queried url in the most_accessed list.
+        self.file = open(file, "w")
+
+    def __del__(self):
+        self.file.close()
     
     def push(self, url, count):
         # Check if the new url has a greater number of hits than the lowest queried url in the top n list.
@@ -34,7 +38,9 @@ class Database:
 
     # Export the most accessed urls and there count to be used for plotting
     def export(self):
-        return self.most_accessed
+        self.file.seek(0)
+        self.file.truncate()
+        self.file.write(str(self.most_accessed).strip('[]'))
     
     # Debug
     def print(self):
