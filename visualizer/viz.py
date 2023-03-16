@@ -5,6 +5,7 @@ import numpy as np
 import random
 import serial
 from scapy.all import *
+import database as db
 
 # Begin Reading Incoming PCAP Data
 """
@@ -19,6 +20,8 @@ while True:
 """
 
 urlCount = dict() # Hashmap where URL -> Count
+total_data = []
+db = db.Database(20)
 
 def checkData(pcap_file):
     """"""
@@ -57,12 +60,17 @@ def setupSerial(port):
     else:
         print("Undefined: Serial Completed but is not Open")
 
-def updateGraph():
+def updateGraph(new_data):
+
     print("Todo!")
 
 def main():
     print("Starting DNS Traffic Visualizer")
     setupSerial('COM4')
+
+    plt.rcdefaults()
+    fig, ax = plt.subplots()
+
     checkData("./dns_2019_08.pcap")
     #while(True):
 
