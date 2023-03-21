@@ -1,0 +1,66 @@
+
+State Machine - |fpga|fpga_core:core_inst|udp_ip_rx:udp1_ip_rx_inst|state_reg
+Name state_reg.STATE_READ_PAYLOAD_LAST state_reg.STATE_READ_PAYLOAD state_reg.STATE_READ_HEADER state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST 
+state_reg.STATE_IDLE 0 0 0 0 0 
+state_reg.STATE_READ_HEADER 0 0 1 1 0 
+state_reg.STATE_READ_PAYLOAD 0 1 0 1 0 
+state_reg.STATE_READ_PAYLOAD_LAST 1 0 0 1 0 
+state_reg.STATE_WAIT_LAST 0 0 0 1 1 
+
+State Machine - |fpga|fpga_core:core_inst|udp_ip_rx:udp0_ip_rx_inst|state_reg
+Name state_reg.STATE_READ_PAYLOAD_LAST state_reg.STATE_READ_PAYLOAD state_reg.STATE_READ_HEADER state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST 
+state_reg.STATE_IDLE 0 0 0 0 0 
+state_reg.STATE_READ_HEADER 0 0 1 1 0 
+state_reg.STATE_READ_PAYLOAD 0 1 0 1 0 
+state_reg.STATE_READ_PAYLOAD_LAST 1 0 0 1 0 
+state_reg.STATE_WAIT_LAST 0 0 0 1 1 
+
+State Machine - |fpga|fpga_core:core_inst|ip_eth_rx:ip1_eth_rx_inst|state_reg
+Name state_reg.STATE_READ_PAYLOAD_LAST state_reg.STATE_READ_PAYLOAD state_reg.STATE_READ_HEADER state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST 
+state_reg.STATE_IDLE 0 0 0 0 0 
+state_reg.STATE_READ_HEADER 0 0 1 1 0 
+state_reg.STATE_READ_PAYLOAD 0 1 0 1 0 
+state_reg.STATE_READ_PAYLOAD_LAST 1 0 0 1 0 
+state_reg.STATE_WAIT_LAST 0 0 0 1 1 
+
+State Machine - |fpga|fpga_core:core_inst|ip_eth_rx:ip0_eth_rx_inst|state_reg
+Name state_reg.STATE_READ_PAYLOAD_LAST state_reg.STATE_READ_PAYLOAD state_reg.STATE_READ_HEADER state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST 
+state_reg.STATE_IDLE 0 0 0 0 0 
+state_reg.STATE_READ_HEADER 0 0 1 1 0 
+state_reg.STATE_READ_PAYLOAD 0 1 0 1 0 
+state_reg.STATE_READ_PAYLOAD_LAST 1 0 0 1 0 
+state_reg.STATE_WAIT_LAST 0 0 0 1 1 
+
+State Machine - |fpga|fpga_core:core_inst|eth_mac_1g_rgmii_fifo:eth_mac_inst1|eth_mac_1g_rgmii:eth_mac_1g_rgmii_inst|eth_mac_1g:eth_mac_1g_inst|axis_gmii_tx:axis_gmii_tx_inst|state_reg
+Name state_reg.STATE_IFG state_reg.STATE_WAIT_END state_reg.STATE_FCS state_reg.STATE_PAD state_reg.STATE_LAST state_reg.STATE_PAYLOAD state_reg.STATE_PREAMBLE state_reg.STATE_IDLE 
+state_reg.STATE_IDLE 0 0 0 0 0 0 0 0 
+state_reg.STATE_PREAMBLE 0 0 0 0 0 0 1 1 
+state_reg.STATE_PAYLOAD 0 0 0 0 0 1 0 1 
+state_reg.STATE_LAST 0 0 0 0 1 0 0 1 
+state_reg.STATE_PAD 0 0 0 1 0 0 0 1 
+state_reg.STATE_FCS 0 0 1 0 0 0 0 1 
+state_reg.STATE_WAIT_END 0 1 0 0 0 0 0 1 
+state_reg.STATE_IFG 1 0 0 0 0 0 0 1 
+
+State Machine - |fpga|fpga_core:core_inst|eth_mac_1g_rgmii_fifo:eth_mac_inst1|eth_mac_1g_rgmii:eth_mac_1g_rgmii_inst|eth_mac_1g:eth_mac_1g_inst|axis_gmii_rx:axis_gmii_rx_inst|state_reg
+Name state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST state_reg.STATE_PAYLOAD 
+state_reg.STATE_IDLE 0 0 0 
+state_reg.STATE_PAYLOAD 1 0 1 
+state_reg.STATE_WAIT_LAST 1 1 0 
+
+State Machine - |fpga|fpga_core:core_inst|eth_mac_1g_rgmii_fifo:eth_mac_inst0|eth_mac_1g_rgmii:eth_mac_1g_rgmii_inst|eth_mac_1g:eth_mac_1g_inst|axis_gmii_tx:axis_gmii_tx_inst|state_reg
+Name state_reg.STATE_IFG state_reg.STATE_WAIT_END state_reg.STATE_FCS state_reg.STATE_PAD state_reg.STATE_LAST state_reg.STATE_PAYLOAD state_reg.STATE_PREAMBLE state_reg.STATE_IDLE 
+state_reg.STATE_IDLE 0 0 0 0 0 0 0 0 
+state_reg.STATE_PREAMBLE 0 0 0 0 0 0 1 1 
+state_reg.STATE_PAYLOAD 0 0 0 0 0 1 0 1 
+state_reg.STATE_LAST 0 0 0 0 1 0 0 1 
+state_reg.STATE_PAD 0 0 0 1 0 0 0 1 
+state_reg.STATE_FCS 0 0 1 0 0 0 0 1 
+state_reg.STATE_WAIT_END 0 1 0 0 0 0 0 1 
+state_reg.STATE_IFG 1 0 0 0 0 0 0 1 
+
+State Machine - |fpga|fpga_core:core_inst|eth_mac_1g_rgmii_fifo:eth_mac_inst0|eth_mac_1g_rgmii:eth_mac_1g_rgmii_inst|eth_mac_1g:eth_mac_1g_inst|axis_gmii_rx:axis_gmii_rx_inst|state_reg
+Name state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST state_reg.STATE_PAYLOAD 
+state_reg.STATE_IDLE 0 0 0 
+state_reg.STATE_PAYLOAD 1 0 1 
+state_reg.STATE_WAIT_LAST 1 1 0 
