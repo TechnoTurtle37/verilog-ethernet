@@ -42,7 +42,10 @@ module fpga_core #
      */
     input  wire       clk,
     input  wire       clk90,
-	 input wire CLK_50,
+	input  wire       CLK_50,
+    input  wire       clk_dram_c,
+    input  wire       clk_dram,
+    input  wire       pll_locked_dram, 
     input  wire       rst,
 
     /*
@@ -83,8 +86,19 @@ module fpga_core #
     output wire       phy1_reset_n,
     input  wire       phy1_int_n,
 	 
-	 output wire		 uart_tx,
-	 input wire 		 uart_rx
+	output wire		 uart_tx,
+	input wire 		 uart_rx,
+
+    output wire [12:0] dram_addr,
+    output wire [1:0] dram_bank,
+    output wire dram_cas_n,
+    output wire dram_ras_n,
+    output wire dram_cke,
+    output wire dram_clk,
+    output wire dram_cs_n,
+    inout wire  [31:0] dram_dq,
+    output wire [3:0]dram_dqm,
+    output wire dram_we_n
 
 );
 
@@ -256,14 +270,16 @@ wire tx_fifo_udp_payload_axis_tready;
 wire tx_fifo_udp_payload_axis_tlast;
 wire tx_fifo_udp_payload_axis_tuser;
 
+wire [23:0]s_axis_config_tdata;
+wire s_axis_config_tvalid;
+
 
 
 
 
 
 //assign led = sw;
-assign ledg = 1'b1;
-assign ledr = sw;
+
 assign phy0_reset_n = ~rst;
 assign phy1_reset_n = ~rst;
 
@@ -279,13 +295,13 @@ assign tx0_axis_tlast = rx1_axis_tlast;
 
 
 
-transmitter uart_transmitter(
-    .clk(clk),
-    .reset(rst),
-    .transmit(1'b1),
-    .data(rx0_eth_src_mac[7:0]),
-    .TxD(uart_tx)
-);
+// transmitter uart_transmitter(
+//     .clk(clk),
+//     .reset(rst),
+//     .transmit(1'b1),
+//     .data(rx0_eth_src_mac[7:0]),
+//     .TxD(uart_tx)
+// );
 
 
 
@@ -661,6 +677,63 @@ udp1_ip_rx_inst (
     .error_payload_early_termination()
 );
 
+axis_uart_v1_0
+axis_uart (
+
+    .aclk(clk),
+    .aresetn(!rst),
+    .s_axis_config_tdata(),
+    .s_axis_config_tvalid(),
+    .s_axis_config_tready(),
+
+    .s_axis_tdata(rx0_axis_tdata),
+    .s_axis_tvalid(rx0_axis_tvalid),
+    .s_axis_tready(),
+
+    .m_axis_tdata(),
+    .m_axis_tuser(),
+    .m_axis_tvalid(),
+    .m_axis_tready(),
+
+    .tx(uart_tx),
+    .rx(),
+    .rts(),
+    .cts()
+);
+
+sdram_controller
+sdram_ctl (
+
+    .clk(clk_dram_c),
+    .clk_dram(clk_dram),
+    .rst(rst),
+    .dll_locked(pll_locked_dram),
+
+    .dram_addr(dram_addr),
+    .dram_bank(dram_bank),
+    .dram_cas_n(dram_cas_n),
+    .dram_ras_n(dram_ras_n),
+    .dram_cke(dram_cke),
+    .dram_clk(dram_clk),
+    .dram_cs_n(dram_cs_n),
+    .dram_dq(dram_dq),
+    .dram_dqm(dram_dqm),
+    .dram_we_n(dram_we_n),
+
+    .addr_i(sw[3:0]),
+    .dat_i({21'b0,sw[14:4]}),
+    .dat_o({21'b0,ledr[14:4]}),
+    .we_i(sw[17]),
+    .ack_o(ledg[7]),
+    .stb_i(sw[16]),
+    .cyc_i(sw[15])
+
+);
+
+assign ledg[3:0] = sw[3:0];
+assign ledr[17:15] = 0;
+assign ledr[3:0] = 0;
+assign ledg[6:4] = 0;
 
 endmodule
 

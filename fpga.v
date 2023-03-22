@@ -75,8 +75,21 @@ module fpga (
     output wire        ENET1_RST_N,
     input  wire        ENET1_INT_N,
 	 
-	 output wire		 UART_TXD,
-	 input wire 		 UART_RXD
+	output wire		   UART_TXD,
+	input wire 		   UART_RXD,
+
+    output wire	[12:0]	DRAM_ADDR,
+    output wire	[1:0]	DRAM_BA,
+    output wire		    DRAM_CAS_N,
+    output wire		    DRAM_CKE,
+    output wire		    DRAM_CLK,
+    output wire		    DRAM_CS_N,
+    inout wire  [31:0]	DRAM_DQ,
+    output wire [3:0]	DRAM_DQM,
+    output wire		    DRAM_RAS_N,
+    output wire		    DRAM_WE_N
+
+
 
 );
 
@@ -85,6 +98,10 @@ module fpga (
 // Internal 125 MHz clock
 wire clk_int;
 wire rst_int;
+
+wire clk_dram_c;
+wire clk_dram;
+wire pll_locked_dram;
 
 wire pll_rst = ~KEY[3];
 wire pll_locked;
@@ -227,7 +244,10 @@ core_inst (
      */
     .clk(clk_int),
     .clk90(clk90_int),
-	 .CLK_50(CLOCK_50),
+	.CLK_50(CLOCK_50),
+    .clk_dram_c(clk_dram_c),
+    .clk_dram(clk_dram),
+    .pll_locked_dram(pll_locked_dram),
     .rst(rst_int),
 
     /*
@@ -268,10 +288,28 @@ core_inst (
     .phy1_reset_n(ENET1_RST_N),
     .phy1_int_n(ENET1_INT_N),
 	 
-	 .uart_tx(UART_TXD),
-	 .uart_rx(UART_RXD)
+	.uart_tx(UART_TXD),
+	.uart_rx(UART_RXD),
+
+    .dram_addr(DRAM_ADDR),
+    .dram_bank(DRAM_BA),
+    .dram_cas_n(DRAM_CAS_N),
+    .dram_ras_n(DRAM_RAS_N),
+    .dram_cke(DRAM_CKE),
+    .dram_clk(DRAM_CLK),
+    .dram_cs_n(DRAM_CS_N),
+    .dram_dq(DRAM_DQ),
+    .dram_dqm(DRAM_DQM),
+    .dram_we_n(DRAM_WE_N)
 );
 
+altplldram	altplldram_inst (
+	.areset ( pll_rst ),
+	.inclk0 ( CLOCK_50 ),
+	.c0 ( clk_dram ),
+	.c1 ( clk_dram_c ),
+	.locked ( pll_locked_dram )
+);
 
 
 endmodule

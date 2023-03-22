@@ -1,4 +1,50 @@
 
+State Machine - |fpga|fpga_core:core_inst|sdram_controller:sdram_ctl|current_state
+Name current_state.Error current_state.WaitPre current_state.Pre current_state.RPre current_state.R3 current_state.R2 current_state.R1 current_state.R0 current_state.WPre current_state.W1 current_state.W0 current_state.WaitAct current_state.Act current_state.WaitRefresh current_state.Refresh current_state.Idle current_state.Done current_state.WaitModeReg current_state.ModeReg current_state.WaitInitRef current_state.InitRef current_state.WaitInitPre current_state.InitPre current_state.Wait200 current_state.Init 
+current_state.Init 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+current_state.Wait200 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+current_state.InitPre 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+current_state.WaitInitPre 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+current_state.InitRef 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+current_state.WaitInitRef 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+current_state.ModeReg 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+current_state.WaitModeReg 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+current_state.Done 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+current_state.Idle 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+current_state.Refresh 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+current_state.WaitRefresh 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+current_state.Act 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.WaitAct 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.W0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.W1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.WPre 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.R0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.R1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.R2 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.R3 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.RPre 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.Pre 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.WaitPre 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.Error 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |fpga|fpga_core:core_inst|axis_uart_v1_0:axis_uart|uart_rx:uart_rx_inst|state
+Name state.STATE_END state.STATE_STOP state.STATE_PAR state.STATE_BYTE state.STATE_START state.STATE_IDLE 
+state.STATE_IDLE 0 0 0 0 0 0 
+state.STATE_START 0 0 0 0 1 1 
+state.STATE_BYTE 0 0 0 1 0 1 
+state.STATE_PAR 0 0 1 0 0 1 
+state.STATE_STOP 0 1 0 0 0 1 
+state.STATE_END 1 0 0 0 0 1 
+
+State Machine - |fpga|fpga_core:core_inst|axis_uart_v1_0:axis_uart|uart_tx:uart_tx_inst|state
+Name state.STATE_END state.STATE_STOP state.STATE_PAR state.STATE_BYTE state.STATE_START state.STATE_IDLE 
+state.STATE_IDLE 0 0 0 0 0 0 
+state.STATE_START 0 0 0 0 1 1 
+state.STATE_BYTE 0 0 0 1 0 1 
+state.STATE_PAR 0 0 1 0 0 1 
+state.STATE_STOP 0 1 0 0 0 1 
+state.STATE_END 1 0 0 0 0 1 
+
 State Machine - |fpga|fpga_core:core_inst|udp_ip_rx:udp1_ip_rx_inst|state_reg
 Name state_reg.STATE_READ_PAYLOAD_LAST state_reg.STATE_READ_PAYLOAD state_reg.STATE_READ_HEADER state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST 
 state_reg.STATE_IDLE 0 0 0 0 0 
