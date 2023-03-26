@@ -8,11 +8,9 @@ visualizer = vis.Visualizer()
 def startserial():
     serial_reader.start()
 
-def startvisualizer():
-    visualizer.start()
-
 serial_thread = Thread(target=startserial)
-visualizer_thread = Thread(target=startvisualizer)
 
 serial_thread.start()
-visualizer_thread.start()
+
+# Visualizer should start in main thread.
+visualizer.start()
