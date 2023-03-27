@@ -2,23 +2,23 @@ import serial
 import time
 import database as db
 
-SERIAL_BAUDRATE = 115200
-SERIAL_TIMEOUT = .1
-SERIAL_PORT = 'COM8'
-REFRESH_SECONDS = 5
-PLOT_WIDTH = 10
-WRITE_FILE = "./data.csv"
-
-db = db.Database(PLOT_WIDTH, WRITE_FILE)
-
 class SerialReader:
+    def __init__(self, serial_baudrate=115200, serial_timeout=.1, serial_port="COM8", refresh_seconds=5, plot_width=10, write_file="./data.csv"):
+        self.serial_baudrate = serial_baudrate
+        self.serial_timeout= serial_timeout
+        self.serial_port = serial_port
+        self.refresh_seconds = refresh_seconds
+        self.plot_width = plot_width
+        self.write_file = write_file
+        self.db = db.Database(self.plot_width, self.write_file)
+
     def setupSerial(self, port):
         # Setup Serial Port to interface with DE2-115
         print("Starting Serial...")
         ser = serial.Serial()
         ser.port = port
-        ser.baudrate = SERIAL_BAUDRATE
-        ser.timeout = SERIAL_TIMEOUT
+        ser.baudrate = self.serial_baudrate
+        ser.timeout = self.serial_timeout
         try:
             ser.open()
         except Exception as err:
@@ -32,7 +32,7 @@ class SerialReader:
 
     def start(self):
         print("Starting DNS Traffic Visualizer")
-        ser = self.setupSerial(SERIAL_PORT)
+        ser = self.setupSerial(self.serial_port)
 
         while(True):
             # Assuming data read in is "url,count"
@@ -45,7 +45,7 @@ class SerialReader:
             url = new_data[0]
             count = int(new_data[1])
             print(f"Adding ({url}, {count}) to database\n")
-            db.push(url, count)
-            db.export()
-            time.sleep(REFRESH_SECONDS)
+            self.db.push(url, count)
+            self.db.export()
+            time.sleep(self.refresh_seconds)
 

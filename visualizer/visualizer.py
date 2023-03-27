@@ -7,6 +7,9 @@ import ast
 #file = open("./data.csv", "r")
 
 class Visualizer:
+    def __init__(self, plot_width=10):
+        self.plot_width = plot_width
+
     def fread(self):
         file = open("./data.csv", "r")
         data = file.readline()
@@ -39,7 +42,7 @@ class Visualizer:
         bars = self.ax.barh(y_pos, counts)
         self.ax.invert_yaxis()
         self.ax.set_xlabel("Number of queries")
-        self.ax.set_ylabel("Top 10 queried domains")
+        self.ax.set_ylabel(f"Top {self.plot_width} queried domains")
         self.ax.set_yticks(y_pos, labels=urls)
         return bars
 
