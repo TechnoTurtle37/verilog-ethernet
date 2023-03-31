@@ -194,6 +194,10 @@ reg busy_reg = 1'b0;
 reg error_header_early_termination_reg = 1'b0, error_header_early_termination_next;
 reg error_payload_early_termination_reg = 1'b0, error_payload_early_termination_next;
 
+// single packet enable test
+reg single_packet_enable;
+
+
 // internal datapath
 reg [7:0] m_udp_payload_axis_tdata_int;
 reg       m_udp_payload_axis_tvalid_int;
@@ -230,6 +234,34 @@ assign m_udp_checksum = m_udp_checksum_reg;
 assign busy = busy_reg;
 assign error_header_early_termination = error_header_early_termination_reg;
 assign error_payload_early_termination = error_payload_early_termination_reg;
+
+// reg[1:0] state;
+// // single packet enable
+// always @(posedge clk) begin
+//     if (rst) begin
+//         single_packet_enable <= 1'b1;
+//         state <= 2'b00;
+//     end
+//     else if (state == 2'b00) begin
+//         // wait for valid, valid is low
+//         single_packet_enable <= 1'b1;
+//         if (m_udp_payload_axis_tvalid) state <= 2'b01;
+//         else state <= 2'b00;
+//     end
+//     else if (state == 2'b01) begin
+//         //valid is high, enable until it is not
+//         single_packet_enable <= 1'b1;
+//         state <= 2'b11;
+//         if (!m_udp_payload_axis_tvalid) state <= 2'b11;
+//         else state <= 2'b01;
+//     end
+//     else if (state == 2'b11) begin
+//         // valid is low for the second time, never leave state
+//         single_packet_enable <= 1'b0;
+//         state <= 2'b11;
+//     end
+// end
+
 
 always @* begin
     state_next = STATE_IDLE;
@@ -467,7 +499,8 @@ reg store_udp_payload_int_to_temp;
 reg store_udp_payload_axis_temp_to_output;
 
 assign m_udp_payload_axis_tdata = m_udp_payload_axis_tdata_reg;
-assign m_udp_payload_axis_tvalid = m_udp_payload_axis_tvalid_reg;
+// single packet
+assign m_udp_payload_axis_tvalid = m_udp_payload_axis_tvalid_reg;// && single_packet_enable;
 assign m_udp_payload_axis_tlast = m_udp_payload_axis_tlast_reg;
 assign m_udp_payload_axis_tuser = m_udp_payload_axis_tuser_reg;
 

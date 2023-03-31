@@ -102,6 +102,8 @@ module fpga_core #
 
 );
 
+reg [63:0] debug;
+
 // AXI between MAC and Ethernet modules
 wire [7:0] rx0_axis_tdata;
 wire rx0_axis_tvalid;
@@ -126,6 +128,18 @@ wire tx1_axis_tvalid;
 wire tx1_axis_tready;
 wire tx1_axis_tlast;
 wire tx1_axis_tuser;
+
+wire [7:0] rx0_axis_tap_tdata;
+wire rx0_axis_tap_tvalid;
+wire rx0_axis_tap_tready;
+wire rx0_axis_tap_tlast;
+wire rx0_axis_tap_tuser;
+
+wire [7:0] rx1_axis_tap_tdata;
+wire rx1_axis_tap_tvalid;
+wire rx1_axis_tap_tready;
+wire rx1_axis_tap_tlast;
+wire rx1_axis_tap_tuser;
 
 // Ethernet frame between Ethernet modules and UDP stack
 wire rx0_eth_hdr_ready;
@@ -292,6 +306,20 @@ assign rx0_axis_tready = tx1_axis_tready;
 assign tx1_axis_tlast = rx0_axis_tlast;
 assign tx0_axis_tlast = rx1_axis_tlast;
 
+reg[7:0] cnt;
+reg out;
+always @(*) begin
+    if (rst) begin
+        debug <= 64'b0;
+        cnt <= 4'd0;
+    end
+    else begin 
+        debug <= {rx_udp0_dest_port, rx_udp0_eth_src_mac};
+        out <= debug[cnt];
+        cnt <= cnt + 1;
+    end
+end
+
 
 
 
@@ -406,17 +434,53 @@ eth_mac_inst1 (
     .ifg_delay(12)
 );
 
+axis_tap
+axis_tap0 (
+
+    .clk(clk),
+    .rst(rst),
+    .tap_axis_tdata(rx0_axis_tdata),
+    .tap_axis_tvalid(rx0_axis_tvalid),
+    .tap_axis_tready(rx0_axis_tready),
+    .tap_axis_tlast(rx0_axis_tlast),
+    .tap_axis_tuser(rx0_axis_tuser),
+
+    .m_axis_tdata(rx0_axis_tap_tdata),
+    .m_axis_tvalid(rx0_axis_tap_tvalid),
+    .m_axis_tready(rx0_axis_tap_tready),
+    .m_axis_tlast(rx0_axis_tap_tlast),
+    .m_axis_tuser(rx0_axis_tap_tuser)
+);
+
+axis_tap
+axis_tap1 (
+
+    .clk(clk),
+    .rst(rst),
+    .tap_axis_tdata(rx1_axis_tdata),
+    .tap_axis_tvalid(rx1_axis_tvalid),
+    .tap_axis_tready(rx1_axis_tready),
+    .tap_axis_tlast(rx1_axis_tlast),
+    .tap_axis_tuser(rx1_axis_tuser),
+
+    .m_axis_tdata(rx1_axis_tap_tdata),
+    .m_axis_tvalid(rx1_axis_tap_tvalid),
+    .m_axis_tready(rx1_axis_tap_tready),
+    .m_axis_tlast(rx1_axis_tap_tlast),
+    .m_axis_tuser(rx1_axis_tap_tuser)
+);
 
 eth_axis_rx
+
 eth_axis_rx0_inst (
     .clk(clk),
     .rst(rst),
     // AXI input
-    .s_axis_tdata(rx0_axis_tdata),
-    .s_axis_tvalid(rx0_axis_tvalid),
-    .s_axis_tready(),
-    .s_axis_tlast(rx0_axis_tlast),
-    .s_axis_tuser(rx0_axis_tuser),
+    .s_axis_tdata(rx0_axis_tap_tdata),
+    .s_axis_tvalid(rx0_axis_tap_tvalid),
+    .s_axis_tready(rx0_axis_tap_tready),
+    .s_axis_tlast(rx0_axis_tap_tlast),
+    .s_axis_tuser(rx0_axis_tap_tuser),
     // Ethernet frame output
     .m_eth_hdr_valid(rx0_eth_hdr_valid),
     .m_eth_hdr_ready(rx0_eth_hdr_ready),
@@ -438,11 +502,11 @@ eth_axis_rx1_inst (
     .clk(clk),
     .rst(rst),
     // AXI input
-    .s_axis_tdata(rx1_axis_tdata),
-    .s_axis_tvalid(rx1_axis_tvalid),
-    .s_axis_tready(),
-    .s_axis_tlast(rx1_axis_tlast),
-    .s_axis_tuser(rx1_axis_tuser),
+    .s_axis_tdata(rx1_axis_tap_tdata),
+    .s_axis_tvalid(rx1_axis_tap_tvalid),
+    .s_axis_tready(rx1_axis_tap_tready),
+    .s_axis_tlast(rx1_axis_tap_tlast),
+    .s_axis_tuser(rx1_axis_tap_tuser),
     // Ethernet frame output
     .m_eth_hdr_valid(rx1_eth_hdr_valid),
     .m_eth_hdr_ready(rx1_eth_hdr_ready),
@@ -583,7 +647,7 @@ udp0_ip_rx_inst (
     .s_ip_payload_axis_tuser(rx_ip0_payload_axis_tuser),
     // UDP frame output
     .m_udp_hdr_valid(rx_udp0_hdr_valid),
-    .m_udp_hdr_ready(rx_udp0_hdr_ready),
+    .m_udp_hdr_ready(rx_udp0_payload_axis_tready),
     .m_eth_dest_mac(rx_udp0_eth_dest_mac),
     .m_eth_src_mac(rx_udp0_eth_src_mac),
     .m_eth_type(rx_udp0_eth_type),
@@ -598,11 +662,11 @@ udp0_ip_rx_inst (
     .m_ip_ttl(rx_udp0_ip_ttl),
     .m_ip_protocol(rx_udp0_ip_protocol),
     .m_ip_header_checksum(rx_udp0_ip_header_checksum),
-    .m_ip_source_ip(rx_udp0_ip_source_ip),
+    .m_ip_source_ip(rx_udp0_ip_source_ip), //Needed
     .m_ip_dest_ip(rx_udp0_ip_dest_ip),
     .m_udp_source_port(rx_udp0_source_port),
-    .m_udp_dest_port(rx_udp0_dest_port),
-    .m_udp_length(rx_udp0_length),
+    .m_udp_dest_port(rx_udp0_dest_port), //Needs to be 53
+    .m_udp_length(rx_udp0_length), //Maybe
     .m_udp_checksum(rx_udp0_checksum),
     .m_udp_payload_axis_tdata(rx_udp0_payload_axis_tdata),
     .m_udp_payload_axis_tvalid(rx_udp0_payload_axis_tvalid),
@@ -645,7 +709,7 @@ udp1_ip_rx_inst (
     .s_ip_payload_axis_tuser(rx_ip1_payload_axis_tuser),
     // UDP frame output
     .m_udp_hdr_valid(rx_udp1_hdr_valid),
-    .m_udp_hdr_ready(rx_udp1_hdr_ready),
+    .m_udp_hdr_ready(1),
     .m_eth_dest_mac(rx_udp1_eth_dest_mac),
     .m_eth_src_mac(rx_udp1_eth_src_mac),
     .m_eth_type(rx_udp1_eth_type),
@@ -668,7 +732,7 @@ udp1_ip_rx_inst (
     .m_udp_checksum(rx_udp1_checksum),
     .m_udp_payload_axis_tdata(rx_udp1_payload_axis_tdata),
     .m_udp_payload_axis_tvalid(rx_udp1_payload_axis_tvalid),
-    .m_udp_payload_axis_tready(rx_udp1_payload_axis_tready),
+    .m_udp_payload_axis_tready(1),
     .m_udp_payload_axis_tlast(rx_udp1_payload_axis_tlast),
     .m_udp_payload_axis_tuser(rx_udp1_payload_axis_tuser),
     // Status signals
@@ -676,6 +740,7 @@ udp1_ip_rx_inst (
     .error_header_early_termination(),
     .error_payload_early_termination()
 );
+
 
 axis_uart_v1_0
 axis_uart (
@@ -686,9 +751,9 @@ axis_uart (
     .s_axis_config_tvalid(),
     .s_axis_config_tready(),
 
-    .s_axis_tdata(rx0_axis_tdata),
-    .s_axis_tvalid(rx0_axis_tvalid),
-    .s_axis_tready(),
+    .s_axis_tdata(rx_udp1_eth_src_mac[7:0]),
+    .s_axis_tvalid(rx_udp1_payload_axis_tvalid),
+    .s_axis_tready(rx_udp1_payload_axis_tready),
 
     .m_axis_tdata(),
     .m_axis_tuser(),
@@ -701,39 +766,46 @@ axis_uart (
     .cts()
 );
 
-sdram_controller
-sdram_ctl (
+// sdram_controller
+// sdram_ctl (
 
-    .clk(clk_dram_c),
-    .clk_dram(clk_dram),
-    .rst(rst),
-    .dll_locked(pll_locked_dram),
+//     .clk(clk_dram_c),
+//     .clk_dram(clk_dram),
+//     .rst(rst),
+//     .dll_locked(pll_locked_dram),
 
-    .dram_addr(dram_addr),
-    .dram_bank(dram_bank),
-    .dram_cas_n(dram_cas_n),
-    .dram_ras_n(dram_ras_n),
-    .dram_cke(dram_cke),
-    .dram_clk(dram_clk),
-    .dram_cs_n(dram_cs_n),
-    .dram_dq(dram_dq),
-    .dram_dqm(dram_dqm),
-    .dram_we_n(dram_we_n),
+//     .dram_addr(dram_addr),
+//     .dram_bank(dram_bank),
+//     .dram_cas_n(dram_cas_n),
+//     .dram_ras_n(dram_ras_n),
+//     .dram_cke(dram_cke),
+//     .dram_clk(dram_clk),
+//     .dram_cs_n(dram_cs_n),
+//     .dram_dq(dram_dq),
+//     .dram_dqm(dram_dqm),
+//     .dram_we_n(dram_we_n),
 
-    .addr_i(sw[3:0]),
-    .dat_i({21'b0,sw[14:4]}),
-    .dat_o({21'b0,ledr[14:4]}),
-    .we_i(sw[17]),
-    .ack_o(ledg[7]),
-    .stb_i(sw[16]),
-    .cyc_i(sw[15])
+//     .addr_i(sw[3:0]),
+//     .dat_i({21'b0,sw[14:4]}),
+//     .dat_o({21'b0,ledr[14:4]}),
+//     .we_i(sw[17]),
+//     .ack_o(ledg[7]),
+//     .stb_i(sw[16]),
+//     .cyc_i(sw[15])
 
-);
+// );
 
-assign ledg[3:0] = sw[3:0];
-assign ledr[17:15] = 0;
-assign ledr[3:0] = 0;
-assign ledg[6:4] = 0;
+// transmitter transmitter_inst( 
+//     .clk(clk), 
+//     .reset(rst), 
+//     .transmit(rx_udp1_hdr_valid),
+//     .data(rx_udp1_eth_src_mac[7:0]),
+//     .TxD(uart_tx)
+// );
+
+//assign ledg[3:0] = sw[3:0];
+assign ledr[0] = rx_udp1_eth_src_mac==48'h2020000000aa;
+assign ledg[7:0] = {rx1_axis_tap_tvalid,rx1_axis_tap_tready,rx1_axis_tready,rx1_axis_tvalid,rx0_axis_tvalid};
 
 endmodule
 

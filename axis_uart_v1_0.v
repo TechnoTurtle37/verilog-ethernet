@@ -24,7 +24,7 @@ module axis_uart_v1_0 #(
 	parameter integer PARITY = 0, 			/* 0(none), 1(even), 2(odd), 3(mark), 4(space) */
 	parameter integer BYTE_SIZE = 8, 		/* Byte Size (16 max) */
 	parameter integer STOP_BITS = 0, 		/* 0(one stop), 1(two stops) */
-	parameter integer FIFO_DEPTH = 32,		/* FIFO Depth */
+	parameter integer FIFO_DEPTH = 1024,		/* FIFO Depth */
 	parameter integer FLOW_CONTROL = 0,		/* RTS/CTS */
 	parameter integer DYNAMIC_CONFIG = 0	/* Dynamic Configuration */
 )
