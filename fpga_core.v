@@ -766,34 +766,34 @@ axis_uart (
     .cts()
 );
 
-// sdram_controller
-// sdram_ctl (
+sdram_controller
+sdram_ctl (
 
-//     .clk(clk_dram_c),
-//     .clk_dram(clk_dram),
-//     .rst(rst),
-//     .dll_locked(pll_locked_dram),
+    .clk(clk_dram_c),
+    .clk_dram(clk_dram),
+    .rst(rst),
+    .dll_locked(pll_locked_dram),
 
-//     .dram_addr(dram_addr),
-//     .dram_bank(dram_bank),
-//     .dram_cas_n(dram_cas_n),
-//     .dram_ras_n(dram_ras_n),
-//     .dram_cke(dram_cke),
-//     .dram_clk(dram_clk),
-//     .dram_cs_n(dram_cs_n),
-//     .dram_dq(dram_dq),
-//     .dram_dqm(dram_dqm),
-//     .dram_we_n(dram_we_n),
+    .dram_addr(dram_addr),
+    .dram_bank(dram_bank),
+    .dram_cas_n(dram_cas_n),
+    .dram_ras_n(dram_ras_n),
+    .dram_cke(dram_cke),
+    .dram_clk(dram_clk),
+    .dram_cs_n(dram_cs_n),
+    .dram_dq(dram_dq),
+    .dram_dqm(dram_dqm),
+    .dram_we_n(dram_we_n),
 
-//     .addr_i(sw[3:0]),
-//     .dat_i({21'b0,sw[14:4]}),
-//     .dat_o({21'b0,ledr[14:4]}),
-//     .we_i(sw[17]),
-//     .ack_o(ledg[7]),
-//     .stb_i(sw[16]),
-//     .cyc_i(sw[15])
+    .addr_i(sw[3:0]),
+    .dat_i({21'b0,sw[14:4]}),
+    .dat_o({21'b0,ledr[14:4]}),
+    .we_i(sw[17]),
+    .ack_o(ledg[7]),
+    .stb_i(sw[16]),
+    .cyc_i(sw[15])
 
-// );
+);
 
 // transmitter transmitter_inst( 
 //     .clk(clk), 
