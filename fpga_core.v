@@ -68,167 +68,167 @@ module fpga_core #
     /*
      * Ethernet: 1000BASE-T RGMII
      */
-    input  wire       phy0_rx_clk,
-    input  wire [3:0] phy0_rxd,
-    input  wire       phy0_rx_ctl,
-    output wire       phy0_tx_clk,
-    output wire [3:0] phy0_txd,
-    output wire       phy0_tx_ctl,
-    output wire       phy0_reset_n,
-    input  wire       phy0_int_n,
+    input  wire         phy0_rx_clk,
+    input  wire [3:0]   phy0_rxd,
+    input  wire         phy0_rx_ctl,
+    output wire         phy0_tx_clk,
+    output wire [3:0]   phy0_txd,
+    output wire         phy0_tx_ctl,
+    output wire         phy0_reset_n,
+    input  wire         phy0_int_n,
 
-    input  wire       phy1_rx_clk,
-    input  wire [3:0] phy1_rxd,
-    input  wire       phy1_rx_ctl,
-    output wire       phy1_tx_clk,
-    output wire [3:0] phy1_txd,
-    output wire       phy1_tx_ctl,
-    output wire       phy1_reset_n,
-    input  wire       phy1_int_n,
+    input  wire         phy1_rx_clk,
+    input  wire [3:0]   phy1_rxd,
+    input  wire         phy1_rx_ctl,
+    output wire         phy1_tx_clk,
+    output wire [3:0]   phy1_txd,
+    output wire         phy1_tx_ctl,
+    output wire         phy1_reset_n,
+    input  wire         phy1_int_n,
 	 
-	output wire		 uart_tx,
-	input wire 		 uart_rx,
+	output wire		    uart_tx,
+	input wire 		    uart_rx,
 
-    output wire [12:0] dram_addr,
-    output wire [1:0] dram_bank,
-    output wire dram_cas_n,
-    output wire dram_ras_n,
-    output wire dram_cke,
-    output wire dram_clk,
-    output wire dram_cs_n,
-    inout wire  [31:0] dram_dq,
-    output wire [3:0]dram_dqm,
-    output wire dram_we_n
+    output wire [12:0]  dram_addr,
+    output wire [1:0]   dram_bank,
+    output wire         dram_cas_n,
+    output wire         dram_ras_n,
+    output wire         dram_cke,
+    output wire         dram_clk,
+    output wire         dram_cs_n,
+    inout wire  [31:0]  dram_dq,
+    output wire [3:0]   dram_dqm,
+    output wire         dram_we_n
 
 );
 
-reg [63:0] debug;
+reg [63:0]  debug;
 
 // AXI between MAC and Ethernet modules
-wire [7:0] rx0_axis_tdata;
-wire rx0_axis_tvalid;
-wire rx0_axis_tready;
-wire rx0_axis_tlast;
-wire rx0_axis_tuser;
+wire [7:0]  rx0_axis_tdata;
+wire        rx0_axis_tvalid;
+wire        rx0_axis_tready;
+wire        rx0_axis_tlast;
+wire        rx0_axis_tuser;
 
-wire [7:0] tx0_axis_tdata;
-wire tx0_axis_tvalid;
-wire tx0_axis_tready;
-wire tx0_axis_tlast;
-wire tx0_axis_tuser;
+wire [7:0]  tx0_axis_tdata;
+wire        tx0_axis_tvalid;
+wire        tx0_axis_tready;
+wire        tx0_axis_tlast;
+wire        tx0_axis_tuser;
 
-wire [7:0] rx1_axis_tdata;
-wire rx1_axis_tvalid;
-wire rx1_axis_tready;
-wire rx1_axis_tlast;
-wire rx1_axis_tuser;
+wire [7:0]  rx1_axis_tdata;
+wire        rx1_axis_tvalid;
+wire        rx1_axis_tready;
+wire        rx1_axis_tlast;
+wire        rx1_axis_tuser;
 
-wire [7:0] tx1_axis_tdata;
-wire tx1_axis_tvalid;
-wire tx1_axis_tready;
-wire tx1_axis_tlast;
-wire tx1_axis_tuser;
+wire [7:0]  tx1_axis_tdata;
+wire        tx1_axis_tvalid;
+wire        tx1_axis_tready;
+wire        tx1_axis_tlast;
+wire        tx1_axis_tuser;
 
-wire [7:0] rx0_axis_tap_tdata;
-wire rx0_axis_tap_tvalid;
-wire rx0_axis_tap_tready;
-wire rx0_axis_tap_tlast;
-wire rx0_axis_tap_tuser;
+wire [7:0]  rx0_axis_tap_tdata;
+wire        rx0_axis_tap_tvalid;
+wire        rx0_axis_tap_tready;
+wire        rx0_axis_tap_tlast;
+wire        rx0_axis_tap_tuser;
 
-wire [7:0] rx1_axis_tap_tdata;
-wire rx1_axis_tap_tvalid;
-wire rx1_axis_tap_tready;
-wire rx1_axis_tap_tlast;
-wire rx1_axis_tap_tuser;
+wire [7:0]  rx1_axis_tap_tdata;
+wire        rx1_axis_tap_tvalid;
+wire        rx1_axis_tap_tready;
+wire        rx1_axis_tap_tlast;
+wire        rx1_axis_tap_tuser;
 
 // Ethernet frame between Ethernet modules and UDP stack
-wire rx0_eth_hdr_ready;
-wire rx0_eth_hdr_valid;
+wire        rx0_eth_hdr_ready;
+wire        rx0_eth_hdr_valid;
 wire [47:0] rx0_eth_dest_mac;
 wire [47:0] rx0_eth_src_mac;
 wire [15:0] rx0_eth_type;
-wire [7:0] rx0_eth_payload_axis_tdata;
-wire rx0_eth_payload_axis_tvalid;
-wire rx0_eth_payload_axis_tready;
-wire rx0_eth_payload_axis_tlast;
-wire rx0_eth_payload_axis_tuser;
+wire [7:0]  rx0_eth_payload_axis_tdata;
+wire        rx0_eth_payload_axis_tvalid;
+wire        rx0_eth_payload_axis_tready;
+wire        rx0_eth_payload_axis_tlast;
+wire        rx0_eth_payload_axis_tuser;
 
-wire rx1_eth_hdr_ready;
-wire rx1_eth_hdr_valid;
+wire        rx1_eth_hdr_ready;
+wire        rx1_eth_hdr_valid;
 wire [47:0] rx1_eth_dest_mac;
 wire [47:0] rx1_eth_src_mac;
 wire [15:0] rx1_eth_type;
-wire [7:0] rx1_eth_payload_axis_tdata;
-wire rx1_eth_payload_axis_tvalid;
-wire rx1_eth_payload_axis_tready;
-wire rx1_eth_payload_axis_tlast;
-wire rx1_eth_payload_axis_tuser;
+wire [7:0]  rx1_eth_payload_axis_tdata;
+wire        rx1_eth_payload_axis_tvalid;
+wire        rx1_eth_payload_axis_tready;
+wire        rx1_eth_payload_axis_tlast;
+wire        rx1_eth_payload_axis_tuser;
 
 // IP frame connections
-wire rx_ip0_hdr_valid;
-wire rx_ip0_hdr_ready;
+wire        rx_ip0_hdr_valid;
+wire        rx_ip0_hdr_ready;
 wire [47:0] rx_ip0_eth_dest_mac;
 wire [47:0] rx_ip0_eth_src_mac;
 wire [15:0] rx_ip0_eth_type;
-wire [3:0] rx_ip0_version;
-wire [3:0] rx_ip0_ihl;
-wire [5:0] rx_ip0_dscp;
-wire [1:0] rx_ip0_ecn;
+wire [3:0]  rx_ip0_version;
+wire [3:0]  rx_ip0_ihl;
+wire [5:0]  rx_ip0_dscp;
+wire [1:0]  rx_ip0_ecn;
 wire [15:0] rx_ip0_length;
 wire [15:0] rx_ip0_identification;
-wire [2:0] rx_ip0_flags;
+wire [2:0]  rx_ip0_flags;
 wire [12:0] rx_ip0_fragment_offset;
-wire [7:0] rx_ip0_ttl;
-wire [7:0] rx_ip0_protocol;
+wire [7:0]  rx_ip0_ttl;
+wire [7:0]  rx_ip0_protocol;
 wire [15:0] rx_ip0_header_checksum;
 wire [31:0] rx_ip0_source_ip;
 wire [31:0] rx_ip0_dest_ip;
-wire [7:0] rx_ip0_payload_axis_tdata;
-wire rx_ip0_payload_axis_tvalid;
-wire rx_ip0_payload_axis_tready;
-wire rx_ip0_payload_axis_tlast;
-wire rx_ip0_payload_axis_tuser;
+wire [7:0]  rx_ip0_payload_axis_tdata;
+wire        rx_ip0_payload_axis_tvalid;
+wire        rx_ip0_payload_axis_tready;
+wire        rx_ip0_payload_axis_tlast;
+wire        rx_ip0_payload_axis_tuser;
 
-wire rx_ip1_hdr_valid;
-wire rx_ip1_hdr_ready;
+wire        rx_ip1_hdr_valid;
+wire        rx_ip1_hdr_ready;
 wire [47:0] rx_ip1_eth_dest_mac;
 wire [47:0] rx_ip1_eth_src_mac;
 wire [15:0] rx_ip1_eth_type;
-wire [3:0] rx_ip1_version;
-wire [3:0] rx_ip1_ihl;
-wire [5:0] rx_ip1_dscp;
-wire [1:0] rx_ip1_ecn;
+wire [3:0]  rx_ip1_version;
+wire [3:0]  rx_ip1_ihl;
+wire [5:0]  rx_ip1_dscp;
+wire [1:0]  rx_ip1_ecn;
 wire [15:0] rx_ip1_length;
 wire [15:0] rx_ip1_identification;
-wire [2:0] rx_ip1_flags;
+wire [2:0]  rx_ip1_flags;
 wire [12:0] rx_ip1_fragment_offset;
-wire [7:0] rx_ip1_ttl;
-wire [7:0] rx_ip1_protocol;
+wire [7:0]  rx_ip1_ttl;
+wire [7:0]  rx_ip1_protocol;
 wire [15:0] rx_ip1_header_checksum;
 wire [31:0] rx_ip1_source_ip;
 wire [31:0] rx_ip1_dest_ip;
-wire [7:0] rx_ip1_payload_axis_tdata;
-wire rx_ip1_payload_axis_tvalid;
-wire rx_ip1_payload_axis_tready;
-wire rx_ip1_payload_axis_tlast;
-wire rx_ip1_payload_axis_tuser;
+wire [7:0]  rx_ip1_payload_axis_tdata;
+wire        rx_ip1_payload_axis_tvalid;
+wire        rx_ip1_payload_axis_tready;
+wire        rx_ip1_payload_axis_tlast;
+wire        rx_ip1_payload_axis_tuser;
 
 // UDP frame connections
-wire rx_udp0_hdr_valid;
-wire rx_udp0_hdr_ready;
+wire        rx_udp0_hdr_valid;
+wire        rx_udp0_hdr_ready;
 wire [47:0] rx_udp0_eth_dest_mac;
 wire [47:0] rx_udp0_eth_src_mac;
 wire [15:0] rx_udp0_eth_type;
-wire [3:0] rx_udp0_ip_version;
-wire [3:0] rx_udp0_ip_ihl;
-wire [5:0] rx_udp0_ip_dscp;
-wire [1:0] rx_udp0_ip_ecn;
+wire [3:0]  rx_udp0_ip_version;
+wire [3:0]  rx_udp0_ip_ihl;
+wire [5:0]  rx_udp0_ip_dscp;
+wire [1:0]  rx_udp0_ip_ecn;
 wire [15:0] rx_udp0_ip_length;
 wire [15:0] rx_udp0_ip_identification;
-wire [2:0] rx_udp0_ip_flags;
+wire [2:0]  rx_udp0_ip_flags;
 wire [12:0] rx_udp0_ip_fragment_offset;
-wire [7:0] rx_udp0_ip_ttl;
-wire [7:0] rx_udp0_ip_protocol;
+wire [7:0]  rx_udp0_ip_ttl;
+wire [7:0]  rx_udp0_ip_protocol;
 wire [15:0] rx_udp0_ip_header_checksum;
 wire [31:0] rx_udp0_ip_source_ip;
 wire [31:0] rx_udp0_ip_dest_ip;
@@ -236,27 +236,27 @@ wire [15:0] rx_udp0_source_port;
 wire [15:0] rx_udp0_dest_port;
 wire [15:0] rx_udp0_length;
 wire [15:0] rx_udp0_checksum;
-wire [7:0] rx_udp0_payload_axis_tdata;
-wire rx_udp0_payload_axis_tvalid;
-wire rx_udp0_payload_axis_tready;
-wire rx_udp0_payload_axis_tlast;
-wire rx_udp0_payload_axis_tuser;
+wire [7:0]  rx_udp0_payload_axis_tdata;
+wire        rx_udp0_payload_axis_tvalid;
+wire        rx_udp0_payload_axis_tready;
+wire        rx_udp0_payload_axis_tlast;
+wire        rx_udp0_payload_axis_tuser;
 
-wire rx_udp1_hdr_valid;
-wire rx_udp1_hdr_ready;
+wire        rx_udp1_hdr_valid;
+wire        rx_udp1_hdr_ready;
 wire [47:0] rx_udp1_eth_dest_mac;
 wire [47:0] rx_udp1_eth_src_mac;
 wire [15:0] rx_udp1_eth_type;
-wire [3:0] rx_udp1_ip_version;
-wire [3:0] rx_udp1_ip_ihl;
-wire [5:0] rx_udp1_ip_dscp;
-wire [1:0] rx_udp1_ip_ecn;
+wire [3:0]  rx_udp1_ip_version;
+wire [3:0]  rx_udp1_ip_ihl;
+wire [5:0]  rx_udp1_ip_dscp;
+wire [1:0]  rx_udp1_ip_ecn;
 wire [15:0] rx_udp1_ip_length;
 wire [15:0] rx_udp1_ip_identification;
-wire [2:0] rx_udp1_ip_flags;
+wire [2:0]  rx_udp1_ip_flags;
 wire [12:0] rx_udp1_ip_fragment_offset;
-wire [7:0] rx_udp1_ip_ttl;
-wire [7:0] rx_udp1_ip_protocol;
+wire [7:0]  rx_udp1_ip_ttl;
+wire [7:0]  rx_udp1_ip_protocol;
 wire [15:0] rx_udp1_ip_header_checksum;
 wire [31:0] rx_udp1_ip_source_ip;
 wire [31:0] rx_udp1_ip_dest_ip;
@@ -264,28 +264,34 @@ wire [15:0] rx_udp1_source_port;
 wire [15:0] rx_udp1_dest_port;
 wire [15:0] rx_udp1_length;
 wire [15:0] rx_udp1_checksum;
-wire [7:0] rx_udp1_payload_axis_tdata;
-wire rx_udp1_payload_axis_tvalid;
-wire rx_udp1_payload_axis_tready;
-wire rx_udp1_payload_axis_tlast;
-wire rx_udp1_payload_axis_tuser;
+wire [7:0]  rx_udp1_payload_axis_tdata;
+wire        rx_udp1_payload_axis_tvalid;
+wire        rx_udp1_payload_axis_tready;
+wire        rx_udp1_payload_axis_tlast;
+wire        rx_udp1_payload_axis_tuser;
+
+wire            dns0_valid;
+wire            dns0_ready;
+wire [31:0]     dns0_source_ip;
+wire [31:0]     dns0_dest_ip;
+wire [15:0]     dns0_length;
+wire [4095:0]   dns0_pkt;
 
 
+wire [7:0]  rx_fifo_udp_payload_axis_tdata;
+wire        rx_fifo_udp_payload_axis_tvalid;
+wire        rx_fifo_udp_payload_axis_tready;
+wire        rx_fifo_udp_payload_axis_tlast;
+wire        rx_fifo_udp_payload_axis_tuser;
 
-wire [7:0] rx_fifo_udp_payload_axis_tdata;
-wire rx_fifo_udp_payload_axis_tvalid;
-wire rx_fifo_udp_payload_axis_tready;
-wire rx_fifo_udp_payload_axis_tlast;
-wire rx_fifo_udp_payload_axis_tuser;
+wire [7:0]  tx_fifo_udp_payload_axis_tdata;
+wire        tx_fifo_udp_payload_axis_tvalid;
+wire        tx_fifo_udp_payload_axis_tready;
+wire        tx_fifo_udp_payload_axis_tlast;
+wire        tx_fifo_udp_payload_axis_tuser;
 
-wire [7:0] tx_fifo_udp_payload_axis_tdata;
-wire tx_fifo_udp_payload_axis_tvalid;
-wire tx_fifo_udp_payload_axis_tready;
-wire tx_fifo_udp_payload_axis_tlast;
-wire tx_fifo_udp_payload_axis_tuser;
-
-wire [23:0]s_axis_config_tdata;
-wire s_axis_config_tvalid;
+wire [23:0] s_axis_config_tdata;
+wire        s_axis_config_tvalid;
 
 
 
@@ -647,7 +653,7 @@ udp0_ip_rx_inst (
     .s_ip_payload_axis_tuser(rx_ip0_payload_axis_tuser),
     // UDP frame output
     .m_udp_hdr_valid(rx_udp0_hdr_valid),
-    .m_udp_hdr_ready(rx_udp0_payload_axis_tready),
+    .m_udp_hdr_ready(rx_udp0_hdr_ready),
     .m_eth_dest_mac(rx_udp0_eth_dest_mac),
     .m_eth_src_mac(rx_udp0_eth_src_mac),
     .m_eth_type(rx_udp0_eth_type),
@@ -709,7 +715,7 @@ udp1_ip_rx_inst (
     .s_ip_payload_axis_tuser(rx_ip1_payload_axis_tuser),
     // UDP frame output
     .m_udp_hdr_valid(rx_udp1_hdr_valid),
-    .m_udp_hdr_ready(1),
+    .m_udp_hdr_ready(rx_udp1_hdr_ready),
     .m_eth_dest_mac(rx_udp1_eth_dest_mac),
     .m_eth_src_mac(rx_udp1_eth_src_mac),
     .m_eth_type(rx_udp1_eth_type),
@@ -732,7 +738,7 @@ udp1_ip_rx_inst (
     .m_udp_checksum(rx_udp1_checksum),
     .m_udp_payload_axis_tdata(rx_udp1_payload_axis_tdata),
     .m_udp_payload_axis_tvalid(rx_udp1_payload_axis_tvalid),
-    .m_udp_payload_axis_tready(1),
+    .m_udp_payload_axis_tready(rx_udp1_payload_axis_tready),
     .m_udp_payload_axis_tlast(rx_udp1_payload_axis_tlast),
     .m_udp_payload_axis_tuser(rx_udp1_payload_axis_tuser),
     // Status signals
@@ -741,30 +747,55 @@ udp1_ip_rx_inst (
     .error_payload_early_termination()
 );
 
-
-axis_uart_v1_0
-axis_uart (
-
-    .aclk(clk),
-    .aresetn(!rst),
-    .s_axis_config_tdata(),
-    .s_axis_config_tvalid(),
-    .s_axis_config_tready(),
-
-    .s_axis_tdata(rx_udp1_eth_src_mac[7:0]),
-    .s_axis_tvalid(rx_udp1_payload_axis_tvalid),
-    .s_axis_tready(rx_udp1_payload_axis_tready),
-
-    .m_axis_tdata(),
-    .m_axis_tuser(),
-    .m_axis_tvalid(),
-    .m_axis_tready(),
-
-    .tx(uart_tx),
-    .rx(),
-    .rts(),
-    .cts()
+dns_ip_rx 
+dns0_ip_rx_inst
+(
+	.clk(clk),	
+	.rst(rst),	
+	.s_udp_hdr_valid(rx_udp1_hdr_valid),	
+	.s_udp_hdr_ready(rx_udp1_hdr_ready),
+	.s_udp_source_port(rx_udp1_source_port),	
+	.s_udp_dest_port(rx_udp1_dest_port),	
+	.s_udp_source_ip(rx_udp1_ip_source_ip),	
+	.s_udp_dest_ip(rx_udp1_ip_dest_ip),	
+	.s_udp_length(rx_udp1_length),	
+	.s_udp_payload_axis_tdata(rx_udp1_payload_axis_tdata),	
+	.s_udp_payload_axis_tvalid(rx_udp1_payload_axis_tvalid),	
+	.s_udp_payload_axis_tready(rx_udp1_payload_axis_tready),	
+	.s_udp_payload_axis_tlast(rx_udp1_payload_axis_tlast),	
+	.s_udp_payload_axis_tuser(rx_udp1_payload_axis_tuser),	
+	.m_dns_valid(dns0_valid),	
+	.m_dns_ready(dns0_ready),	
+	.m_udp_src_ip(dns0_source_ip),	
+	.m_udp_dst_ip(dns0_dest_ip),	
+	.m_udp_length(dns0_length),	
+	.m_dns_pkt(dns0_pkt)
 );
+
+
+// axis_uart_v1_0
+// axis_uart (
+
+//     .aclk(clk),
+//     .aresetn(!rst),
+//     .s_axis_config_tdata(),
+//     .s_axis_config_tvalid(),
+//     .s_axis_config_tready(),
+
+//     .s_axis_tdata(rx_udp1_eth_src_mac[7:0]),
+//     .s_axis_tvalid(rx_udp1_payload_axis_tvalid),
+//     .s_axis_tready(rx_udp1_payload_axis_tready),
+
+//     .m_axis_tdata(),
+//     .m_axis_tuser(),
+//     .m_axis_tvalid(),
+//     .m_axis_tready(),
+
+//     .tx(uart_tx),
+//     .rx(),
+//     .rts(),
+//     .cts()
+// );
 
 sdram_controller
 sdram_ctl (
@@ -805,7 +836,7 @@ sdram_ctl (
 
 //assign ledg[3:0] = sw[3:0];
 assign ledr[0] = rx_udp1_eth_src_mac==48'h2020000000aa;
-assign ledg[7:0] = {rx1_axis_tap_tvalid,rx1_axis_tap_tready,rx1_axis_tready,rx1_axis_tvalid,rx0_axis_tvalid};
+//assign ledg[7:0] = {rx1_axis_tap_tvalid,rx1_axis_tap_tready,rx1_axis_tready,rx1_axis_tvalid,rx0_axis_tvalid};
 
 endmodule
 
