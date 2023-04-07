@@ -275,7 +275,7 @@ wire            dns0_ready;
 wire [31:0]     dns0_source_ip;
 wire [31:0]     dns0_dest_ip;
 wire [15:0]     dns0_length;
-wire [4095:0]   dns0_pkt;
+wire [2047:0]   dns0_pkt;
 
 
 wire [7:0]  rx_fifo_udp_payload_axis_tdata;
@@ -312,19 +312,19 @@ assign rx0_axis_tready = tx1_axis_tready;
 assign tx1_axis_tlast = rx0_axis_tlast;
 assign tx0_axis_tlast = rx1_axis_tlast;
 
-reg[7:0] cnt;
-reg out;
-always @(*) begin
-    if (rst) begin
-        debug <= 64'b0;
-        cnt <= 4'd0;
-    end
-    else begin 
-        debug <= {rx_udp0_dest_port, rx_udp0_eth_src_mac};
-        out <= debug[cnt];
-        cnt <= cnt + 1;
-    end
-end
+// reg[7:0] cnt;
+// reg out;
+// always @(*) begin
+//     if (rst) begin
+//         debug <= 64'b0;
+//         cnt <= 4'd0;
+//     end
+//     else begin 
+//         debug <= {rx_udp0_dest_port, rx_udp0_eth_src_mac};
+//         out <= debug[cnt];
+//         cnt <= cnt + 1;
+//     end
+// end
 
 
 
@@ -773,58 +773,58 @@ dns0_ip_rx_inst
 );
 
 
-// axis_uart_v1_0
-// axis_uart (
+axis_uart_v1_0
+axis_uart (
 
-//     .aclk(clk),
-//     .aresetn(!rst),
-//     .s_axis_config_tdata(),
-//     .s_axis_config_tvalid(),
-//     .s_axis_config_tready(),
+    .aclk(clk),
+    .aresetn(!rst),
+    .s_axis_config_tdata(),
+    .s_axis_config_tvalid(),
+    .s_axis_config_tready(),
 
-//     .s_axis_tdata(rx_udp1_eth_src_mac[7:0]),
-//     .s_axis_tvalid(rx_udp1_payload_axis_tvalid),
-//     .s_axis_tready(rx_udp1_payload_axis_tready),
+    .s_axis_tdata(dns0_pkt[2047:2039]),
+    .s_axis_tvalid(dns0_valid),
+    .s_axis_tready(dns0_ready),
 
-//     .m_axis_tdata(),
-//     .m_axis_tuser(),
-//     .m_axis_tvalid(),
-//     .m_axis_tready(),
+    .m_axis_tdata(),
+    .m_axis_tuser(),
+    .m_axis_tvalid(),
+    .m_axis_tready(),
 
-//     .tx(uart_tx),
-//     .rx(),
-//     .rts(),
-//     .cts()
-// );
-
-sdram_controller
-sdram_ctl (
-
-    .clk(clk_dram_c),
-    .clk_dram(clk_dram),
-    .rst(rst),
-    .dll_locked(pll_locked_dram),
-
-    .dram_addr(dram_addr),
-    .dram_bank(dram_bank),
-    .dram_cas_n(dram_cas_n),
-    .dram_ras_n(dram_ras_n),
-    .dram_cke(dram_cke),
-    .dram_clk(dram_clk),
-    .dram_cs_n(dram_cs_n),
-    .dram_dq(dram_dq),
-    .dram_dqm(dram_dqm),
-    .dram_we_n(dram_we_n),
-
-    .addr_i(sw[3:0]),
-    .dat_i({21'b0,sw[14:4]}),
-    .dat_o({21'b0,ledr[14:4]}),
-    .we_i(sw[17]),
-    .ack_o(ledg[7]),
-    .stb_i(sw[16]),
-    .cyc_i(sw[15])
-
+    .tx(uart_tx),
+    .rx(),
+    .rts(),
+    .cts()
 );
+
+// sdram_controller
+// sdram_ctl (
+
+//     .clk(clk_dram_c),
+//     .clk_dram(clk_dram),
+//     .rst(rst),
+//     .dll_locked(pll_locked_dram),
+
+//     .dram_addr(dram_addr),
+//     .dram_bank(dram_bank),
+//     .dram_cas_n(dram_cas_n),
+//     .dram_ras_n(dram_ras_n),
+//     .dram_cke(dram_cke),
+//     .dram_clk(dram_clk),
+//     .dram_cs_n(dram_cs_n),
+//     .dram_dq(dram_dq),
+//     .dram_dqm(dram_dqm),
+//     .dram_we_n(dram_we_n),
+
+//     .addr_i(sw[3:0]),
+//     .dat_i({21'b0,sw[14:4]}),
+//     .dat_o({21'b0,ledr[14:4]}),
+//     .we_i(sw[17]),
+//     .ack_o(ledg[7]),
+//     .stb_i(sw[16]),
+//     .cyc_i(sw[15])
+
+// );
 
 // transmitter transmitter_inst( 
 //     .clk(clk), 

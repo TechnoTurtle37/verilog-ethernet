@@ -1,4 +1,4 @@
-Warning (10268): Verilog HDL information at dns_ip_rx.v(154): always construct contains both blocking and non-blocking assignments File: C:/Users/hlee0/Documents/captsone/lib/dns_ip_rx.v Line: 154
+Warning (10268): Verilog HDL information at dns_ip_rx.v(158): always construct contains both blocking and non-blocking assignments File: C:/Users/hlee0/Documents/captsone/lib/dns_ip_rx.v Line: 158
 Info (10281): Verilog HDL Declaration information at uart_tx.v(24): object "PARITY" differs only in case from object "parity" in the same scope File: C:/Users/hlee0/Documents/captsone/uart_tx.v Line: 24
 Info (10281): Verilog HDL Declaration information at uart_tx.v(25): object "BYTE_SIZE" differs only in case from object "byte_size" in the same scope File: C:/Users/hlee0/Documents/captsone/uart_tx.v Line: 25
 Info (10281): Verilog HDL Declaration information at uart_tx.v(26): object "STOP_BITS" differs only in case from object "stop_bits" in the same scope File: C:/Users/hlee0/Documents/captsone/uart_tx.v Line: 26
