@@ -59,7 +59,7 @@ entity sdram_controller is
 	dram_dqm 	: out std_logic_vector(3 downto 0);
 	dram_we_n 	: out std_logic;
 	--wishbone
-	addr_i 		: in std_logic_vector(22 downto 0);
+	addr_i 		: in std_logic_vector(24 downto 0);
 	dat_i 		: in std_logic_vector(31 downto 0);
     dat_o 		: out std_logic_vector(31 downto 0);
 	we_i 			: in std_logic;
@@ -80,7 +80,7 @@ constant TRCD_CNTR_C : unsigned(2 downto 0) := "001";
 constant TRP_CNTR_C : unsigned(3 downto 0) := "0001";
 constant WAIT_200_CNTR_c : unsigned(15 downto 0) := "0110100101111000";
 
-signal addr_r : std_logic_vector(22 downto 0);
+signal addr_r : std_logic_vector(24 downto 0);
 
 signal dram_addr_r : std_logic_vector(12 downto 0) := (others => '0');
 signal dram_bank_r : std_logic_vector(1 downto 0) := "00";
@@ -352,11 +352,11 @@ begin
 						current_state = pre) then
 			dram_addr_r <= "0010000000000";
 		 elsif (current_state = Act) then
-			dram_addr_r <= "00" & addr_r(20 downto 10);
-			dram_bank_r <= addr_r(22 downto 21);
+			dram_addr_r <= addr_r(22 downto 10);
+			dram_bank_r <= addr_r(24 downto 23);
 		 elsif (current_state = W0 or current_state = R0) then
 			dram_addr_r <= "000" & addr_r(9 downto 0);
-			dram_bank_r <= addr_r(22 downto 21);
+			dram_bank_r <= addr_r(24 downto 23);
 		 else
 			dram_addr_r <= (others => '0');
 			dram_bank_r <= (others => '0');

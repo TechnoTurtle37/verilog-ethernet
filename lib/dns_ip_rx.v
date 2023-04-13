@@ -39,7 +39,7 @@ module dns_ip_rx
     output wire [31:0]  m_udp_src_ip,
     output wire [31:0]  m_udp_dst_ip,
     output wire [15:0]  m_udp_length,
-    output wire [2047:0]m_dns_pkt
+    output wire [4095:0]m_dns_pkt
     // output wire [7:0]   m_dns_axis_tdata,
     // output wire         m_dns_axis_tvalid,
     // input  wire         m_dns_axis_tready,
@@ -64,7 +64,7 @@ reg [31:0] m_dest_ip_reg = 32'b0;
 reg [15:0] m_length_reg = 16'b0; 
 //reg [7:0]  m_axis_tdata_reg = 8'b0; 
 
-reg [2047:0] dns_data_reg = 2048'b0;
+reg [4095:0] dns_data_reg = 4096'b0;
 
 reg error_early_termination_reg = 1'b0, error_early_termination_next;
 // udp hdr ready signals
@@ -162,7 +162,7 @@ always @(posedge clk) begin
         s_udp_payload_axis_tready_reg <= 1'b0;
         m_dns_valid_reg <= 1'b0;
         error_early_termination_reg <= 1'b0;
-        dns_data_reg = 2048'b0;
+        dns_data_reg = 4096'b0;
     end else begin
         state_reg <= state_next;
 
@@ -176,9 +176,9 @@ always @(posedge clk) begin
         data_count_reg <= data_count_next;
     end
     if (state_reg == STATE_IDLE) begin
-        dns_data_reg = 2048'b0;
+        dns_data_reg = 4096'b0;
     end else begin
-        dns_data_reg [(2047-data_count_reg) -:8] <= s_udp_payload_axis_tdata;
+        dns_data_reg [(4095-data_count_reg) -:8] <= s_udp_payload_axis_tdata;
         
     end
 
