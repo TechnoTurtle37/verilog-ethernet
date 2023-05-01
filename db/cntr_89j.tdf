@@ -1,5 +1,5 @@
 --lpm_counter CBX_DECLARE_ALL_CONNECTED_PORTS="OFF" DEVICE_FAMILY="Cyclone IV E" lpm_modulus=1024 lpm_port_updown="PORT_CONNECTIVITY" lpm_width=10 clk_en clock q sclr CARRY_CHAIN="MANUAL" CARRY_CHAIN_LENGTH=48
---VERSION_BEGIN 22.1 cbx_cycloneii 2022:10:25:15:36:38:SC cbx_lpm_add_sub 2022:10:25:15:36:38:SC cbx_lpm_compare 2022:10:25:15:36:38:SC cbx_lpm_counter 2022:10:25:15:36:38:SC cbx_lpm_decode 2022:10:25:15:36:36:SC cbx_mgl 2022:10:25:15:36:55:SC cbx_nadder 2022:10:25:15:36:38:SC cbx_stratix 2022:10:25:15:36:38:SC cbx_stratixii 2022:10:25:15:36:38:SC  VERSION_END
+--VERSION_BEGIN 21.1 cbx_cycloneii 2022:06:23:22:03:45:SJ cbx_lpm_add_sub 2022:06:23:22:03:45:SJ cbx_lpm_compare 2022:06:23:22:03:45:SJ cbx_lpm_counter 2022:06:23:22:03:45:SJ cbx_lpm_decode 2022:06:23:22:03:40:SJ cbx_mgl 2022:06:23:22:04:21:SJ cbx_nadder 2022:06:23:22:03:45:SJ cbx_stratix 2022:06:23:22:03:45:SJ cbx_stratixii 2022:06:23:22:03:45:SJ  VERSION_END
 
 
 -- Copyright (C) 2022  Intel Corporation. All rights reserved.

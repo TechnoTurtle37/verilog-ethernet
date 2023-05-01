@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE115F29) Path("C:/Users/hlee0/Documents/captsone/") File("fpga.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE115F29) Path("C:/Users/hlee0/Documents/verilog-ethernet-master/") File("fpga.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module axis_uart_v1_0 #(
-	parameter integer BAUD_PRESCALER = 1085,	/* Baudrate Prescaler */
+	parameter integer BAUD_PRESCALER = 1155,	/* Baudrate Prescaler */
 	parameter integer PARITY = 0, 			/* 0(none), 1(even), 2(odd), 3(mark), 4(space) */
 	parameter integer BYTE_SIZE = 8, 		/* Byte Size (16 max) */
 	parameter integer STOP_BITS = 0, 		/* 0(one stop), 1(two stops) */

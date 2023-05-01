@@ -82,7 +82,7 @@ assign s_udp_payload_axis_tready = s_udp_payload_axis_tready_reg;
 assign m_udp_src_ip = m_source_ip_reg;
 assign m_udp_dst_ip = m_dest_ip_reg;
 assign m_udp_length = m_length_reg;
-assign m_dns_pkt = dns_data_reg;
+assign m_dns_pkt = dns_data_reg << 8;
 assign s_udp_hdr_ready = s_udp_hdr_ready_reg;
 assign m_dns_valid = m_dns_valid_reg;
 // combinational logic
@@ -165,7 +165,6 @@ always @(posedge clk) begin
         dns_data_reg = 4096'b0;
     end else begin
         state_reg <= state_next;
-
 
         s_udp_hdr_ready_reg <= s_udp_hdr_ready_next;
         s_udp_payload_axis_tready_reg <= s_udp_payload_axis_tready_next;

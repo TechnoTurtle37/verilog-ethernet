@@ -1,5 +1,5 @@
 --lpm_compare CBX_DECLARE_ALL_CONNECTED_PORTS="OFF" DEVICE_FAMILY="Cyclone IV E" LPM_WIDTH=10 ONE_INPUT_IS_CONSTANT="YES" aeb dataa datab
---VERSION_BEGIN 22.1 cbx_cycloneii 2022:10:25:15:36:38:SC cbx_lpm_add_sub 2022:10:25:15:36:38:SC cbx_lpm_compare 2022:10:25:15:36:38:SC cbx_mgl 2022:10:25:15:36:55:SC cbx_nadder 2022:10:25:15:36:38:SC cbx_stratix 2022:10:25:15:36:38:SC cbx_stratixii 2022:10:25:15:36:38:SC  VERSION_END
+--VERSION_BEGIN 21.1 cbx_cycloneii 2022:06:23:22:03:45:SJ cbx_lpm_add_sub 2022:06:23:22:03:45:SJ cbx_lpm_compare 2022:06:23:22:03:45:SJ cbx_mgl 2022:06:23:22:04:21:SJ cbx_nadder 2022:06:23:22:03:45:SJ cbx_stratix 2022:06:23:22:03:45:SJ cbx_stratixii 2022:06:23:22:03:45:SJ  VERSION_END
 
 
 -- Copyright (C) 2022  Intel Corporation. All rights reserved.
