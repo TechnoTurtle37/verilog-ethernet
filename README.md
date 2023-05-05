@@ -12,4 +12,6 @@ vvp fpga_core_tb_output
 
 gtkwave fpga_core_tb.vcd
 
+The necesarry singals will need to be added to the view.
+
 This is a port of Alex Forencich's verilog-ethernet repo's DE2-115 example of a UDP echo running on PHY0.
