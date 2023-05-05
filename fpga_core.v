@@ -1,3 +1,5 @@
+// Heavily modified by us, used as an outline for board level connections
+
 /*
 
 Copyright (c) 2020 Alex Forencich
@@ -350,7 +352,8 @@ assign phy1_reset_n = ~rst;
 
 
 
-//ETHERNET BRIDGING (Future; Conditionally Bridge if not in SPAN mode, use phy1 for offload)
+//ETHERNET BRIDGING, this is the bump in the wire functionality. 
+// MAC 0 and MAC 1 are directly connected here
 assign tx1_axis_tdata = rx0_axis_tdata;
 assign tx0_axis_tdata = rx1_axis_tdata;
 assign tx1_axis_tvalid = rx0_axis_tvalid;
@@ -378,7 +381,8 @@ assign gpio = 0;
 // assign dns0_valid = dns_valid_reg;
 // assign dns0_dest_ip = 32'h0a02f22c;
 
-
+// // State machine to emulate the DNS packet reciever 
+// // This sends 2 registers of DNS data through to the Analyzer + Storage modules, with identical valid/ready behvior from the DNS packet reciever.
 // always @(*) begin
 
 //     dns_sample_next = dns_sample_reg;
@@ -449,6 +453,9 @@ assign gpio = 0;
 // assign parser_valid = parser_valid_reg;
 // assign hash_ready = hash_ready_reg;
 
+
+// // State machine that emulates hwo the storage module will interact with the hash module. 
+// // Sends a valid QNAME to hash after a set delay, otherwise outputs nothing
 // always @(*) begin
 
 //     sample_counter_next = sample_counter_reg;
@@ -493,6 +500,7 @@ assign gpio = 0;
 
 // end
 
+// // SBDM Hash module written by us, SBDM hash itself was referenced from http://www.cse.yorku.ca/~oz/hash.html
 // sbdm2048 hash_qname_inst (
 
 // 	.clk(clk_dram_c),
@@ -509,14 +517,18 @@ assign gpio = 0;
 // );
 // // ---------------------------------------------------------------------------------------------------
 
-assign ledr[6:1] = storage_state;
-assign ledr[17] = uart_ready;
-assign ledr[16] = uart_valid; 
-assign ledr[15] = dns0_ready;
-assign ledr[14] = dns0_valid;
-assign ledr[13] = parser_ready;
-assign ledr[12] = parser_valid;
+// //Debug LEDs
+// assign ledr[6:1] = storage_state;
+// assign ledr[17] = uart_ready;
+// assign ledr[16] = uart_valid; 
+// assign ledr[15] = dns0_ready;
+// assign ledr[14] = dns0_valid;
+// assign ledr[13] = parser_ready;
+// assign ledr[12] = parser_valid;
 
+
+// 1G Eth MAC with FIFO from Alex Forencich's library https://github.com/alexforencich/verilog-ethernet
+// Takes in RGMII signal from onboard PHY transciever, outputs signal in AXI Stream
 eth_mac_1g_rgmii_fifo #(
     .TARGET(TARGET),
     .USE_CLK90("TRUE"),
@@ -566,6 +578,8 @@ eth_mac_inst0 (
     .ifg_delay(12)
 );
 
+// 1G Eth MAC with FIFO from Alex Forencich's library https://github.com/alexforencich/verilog-ethernet
+// Takes in RGMII signal from onboard PHY transciever, outputs signal in AXI Stream
 eth_mac_1g_rgmii_fifo #(
     .TARGET(TARGET),
     .USE_CLK90("TRUE"),
@@ -615,7 +629,8 @@ eth_mac_inst1 (
     .ifg_delay(12)
 );
 
-
+// AXIS TAP from Alex Forencich's library https://github.com/alexforencich/verilog-ethernet
+// Takes in and AXI Stream and replicates it without affecting the original stream
 
 axis_tap
 axis_tap0 (
@@ -636,7 +651,9 @@ axis_tap0 (
 );
 
 
-
+// Asynchronous AXI Stream FIFO from Alex Forencich's library https://github.com/alexforencich/verilog-ethernet
+// We're mainly using this as a clock domain crossing, moving from 125MHz (for PHYs) to 133MHz (for SDRAM Controller)
+// It's also 1Mbyte, we're usign this as the buffer if we get several DNS packets in rapid succession
 axis_async_fifo
 axis_async_fifo_inst
 (
@@ -665,7 +682,8 @@ axis_async_fifo_inst
 );
 
 
-
+// Ethernet RX layer from Alex Forencich's library https://github.com/alexforencich/verilog-ethernet
+// Takes in raw AXI Stream from MAC, outputs ethernet header values as wires and the ethernet payload as another AXIS
 eth_axis_rx
 eth_axis_rx0_inst (
     .clk(clk_dram_c),
@@ -693,7 +711,8 @@ eth_axis_rx0_inst (
 );
 
 
-
+// IP RX Layer from Alex Forencich's library https://github.com/alexforencich/verilog-ethernet
+// Takes in Ethernet Header wires and an ethernet payload AXIS, passes through eth header signals, outputs IP header signals and an IP payload AXIS, 
 ip_eth_rx
 ip0_eth_rx_inst (
     .clk(clk_dram_c),
@@ -742,7 +761,8 @@ ip0_eth_rx_inst (
 );
 
 
-
+// UDP RX layer from Alex Forencich's library https://github.com/alexforencich/verilog-ethernet
+// Takes in Eth and IP header signals and an IP payload AXIS, passes through Eth/IP Header signals, outputs UDP Header values and a UDP payload AXIS
 udp_ip_rx
 udp0_ip_rx_inst (
     .clk(clk_dram_c),
@@ -806,7 +826,8 @@ udp0_ip_rx_inst (
 );
 
 
-
+// DNS packet reciever, written by us
+// Takes in necesarry IP and UDP header signals and a UDP payload, ouputs one 4095 bit wire with one DNS packet + wires for SRC/DEST IP and UDP length
 dns_ip_rx 
 dns0_ip_rx_inst
 (
@@ -834,7 +855,7 @@ dns0_ip_rx_inst
 );
 
 
-
+// AXIS UART, written by https://github.com/mcjtag/axis-uart
 axis_uart_v1_0
 axis_uart (
 
@@ -860,7 +881,8 @@ axis_uart (
 );
 
 
-
+// DNS Packet Analyzer module, written by us
+// Takes in one DNS packet from DNS_IP_RX, outputs individual DNS signals (header values, QNAME, Resource Records, ETC)
 analyzer 
 analyzer_inst
 (
@@ -948,6 +970,8 @@ analyzer_inst
     .cname_count(ans_cname_count)
 );
 
+// Storage and statistics mopdule, written by us
+// Takes in DNS signals from Analyzer and runs statistics and stores data in SDRAM. Outputs are Wishbone to the SDRAM controller
 storage storage_inst
 (
 	.clk(clk_dram_c),
@@ -1030,19 +1054,21 @@ storage storage_inst
 	.ans_aaaa_count(ans_aaaa_count),
 	.ans_cname_count(ans_cname_count),
 
-	.wb_addr_o(sdram_wb_addr_i),
-	.wb_data_o(sdram_wb_data_i),
-	.wb_data_i(sdram_wb_data_o),
-	.wb_we_o(sdram_wb_we_i),
-	.wb_ack_i(sdram_wb_ack_o),
-	.wb_stb_o(sdram_wb_stb_i),
-	.wb_cyc_o(sdram_wb_cyc_i),
+	.wb_addr_o(ext_sdram_wb_addr_i),
+	.wb_data_o(ext_sdram_wb_data_i),
+	.wb_data_i(ext_sdram_wb_data_o),
+	.wb_we_o(ext_sdram_wb_we_i),
+	.wb_ack_i(ext_sdram_wb_ack_o),
+	.wb_stb_o(ext_sdram_wb_stb_i),
+	.wb_cyc_o(ext_sdram_wb_cyc_i),
 
-	.uart_data(uart_data),
-	.uart_valid(uart_valid),
-	.uart_ready(uart_ready)
+	.uart_data(ext_uart_data),
+	.uart_valid(ext_uart_valid),
+	.uart_ready(ext_uart_ready)
 );
 
+
+//SDRAM Controller, wriiten by Luccas Almeida https://github.com/luccas641/DE2-115-SDRAM-Controller
 sdram_controller
 sdram_ctl (
 
@@ -1071,6 +1097,13 @@ sdram_ctl (
     .cyc_i(sdram_wb_cyc_i)
 );
 
+// // Testing Signals
+// assign sdram_wb_data_i = sw[3:0];
+// assign sdram_wb_addr_i = sw[14:4];
+// assign sdram_wb_we_i = sw[17];
+// assign sdram_wb_cyc_i = sw[16];
+// assign sdram_wb_stb_i = sw[15];
+// assign ledg[7] = sdram_wb_ack_o;
 
 
 

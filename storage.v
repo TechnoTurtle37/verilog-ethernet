@@ -1,8 +1,15 @@
+// Storage and Statistics Module
+// Written by Senior Design team, this takes in DNS values on separate singals and runs through the main features of the project
+// We store the data for the domain name if it's a new Qname, otherwise we update the statistics for a known QNAME
+// All states have a _WAIT or _W state, this is how the design waits for SDRAM to retreive the data since it's a multi-clock cycle operation
+
 module storage(
+
+
 
 	input wire clk,
 	input wire rst,
-	output wire [5:0] state,
+	output wire [5:0] state, //Debugging only
 
 	input wire parser_valid,
     output wire parser_ready,
@@ -80,6 +87,8 @@ module storage(
 	input wire [2:0]   ans_aaaa_count,
 	input wire [1:0]   ans_cname_count,
 
+
+	//Memory Outputs to SDRAM Controller
 	output wire [24:0] wb_addr_o,
 	output wire [31:0] wb_data_o,
 	input wire  [31:0] wb_data_i,
@@ -88,7 +97,7 @@ module storage(
 	output wire wb_stb_o,
 	output wire wb_cyc_o,
 
-
+	//Offload ot RS-232
 	output wire [7:0] uart_data,
 	output wire uart_valid,
 	input wire uart_ready
@@ -173,17 +182,14 @@ reg [15:0] 	ans_type_reg, ans_type_next;
 reg [15:0] 	ans_class_reg, ans_class_next;
 reg [31:0] 	ans_ttl_reg, ans_ttl_next;
 reg [15:0] 	ans_datalen_reg, ans_datalen_next;
-
 reg [1023:0] 	ans_addr_reg, ans_addr_next;
 reg [1023:0] 	ans_aaaa_addr_reg, ans_aaaa_addr_next;
 reg [4095:0] ans_cname_reg, ans_cname_next;
-
-
-
 reg [5:0]	ans_a_count_reg, ans_a_count_next;
 reg [3:0]	ans_aaaa_count_reg, ans_aaaa_count_next;
 reg [3:0]	ans_cname_count_reg, ans_cname_count_next;
 
+// Internal Registers for intermittent use by features
 reg [31:0]  block_aaaa_count_reg, block_aaaa_count_next;
 reg [31:0]  block_cname_count_reg, block_cname_count_next;
 reg [31:0]	block_a_count_reg, block_a_count_next;
@@ -199,16 +205,20 @@ reg         wb_we_reg, wb_we_next;
 reg         wb_stb_reg, wb_stb_next;
 reg         wb_cyc_reg, wb_cyc_next;
 
+// RS232 offload
 reg [7:0] uart_data_reg, uart_data_next;
 reg uart_valid_reg, uart_valid_next;
 
+//Internal Addressing signals
 reg [10:0] 	intrablock_addr_reg, intrablock_addr_next;
 reg [2:0] 	interblock_addr_reg, interblock_addr_next;
 
+// Statistics
 reg [31:0] 	cell_flags_reg, cell_flags_next;
 reg [31:0] parsed_pkts_reg, parsed_pkts_next;
 reg 		overflow_reg, overflow_next;
 
+//HAsh related signals
 reg [31:0] 	qname_hash_reg;
 reg [31:0] 	hash_reg, hash_next;
 reg 		hash_ready_reg, hash_ready_next;
@@ -252,6 +262,8 @@ always @(*) begin
 
     state_next = STATE_IDLE;
 
+
+	//Default values, these are to protect against inferred latches in the sythesised design
     wb_addr_next = wb_addr_reg;
     wb_data_o_next = wb_data_o_reg;
     wb_we_next   = wb_we_reg;
@@ -316,7 +328,7 @@ always @(*) begin
 
     case(state_reg) 
 		
-		STATE_ZERO : begin
+		STATE_ZERO : begin // SDRAM starts with garbled data, we need to zero it all out before we begin
 
 			wb_cyc_next = 1'b1;
 			wb_stb_next = 1'b1;
@@ -332,7 +344,7 @@ always @(*) begin
 
 			if (wb_ack_i) begin
 
-				if (wb_addr_reg == 25'd2047) begin
+				if (wb_addr_reg == 25'h1FFFFFF) begin
 
 					wb_stb_next = 1'b0;
 					wb_cyc_next = 1'b0;
@@ -357,10 +369,10 @@ always @(*) begin
 
 		end
 
-        STATE_IDLE: begin
+        STATE_IDLE: begin //Wait for a new packet
 
 			parser_ready_next = 1'b1;
-			if (parsed_pkts_reg >= 2) begin
+			if (parsed_pkts_reg >= 2) begin //This is a debug to trigger an early offload for demonstration purposes
 
 					state_next = STATE_OFFLOAD;
 					wb_addr_next = {hash_reg[10:0], interblock_addr_reg, 11'b0};
@@ -369,7 +381,7 @@ always @(*) begin
 					wb_stb_next = 1'b1;
 					wb_we_next = 1'b0;
 
-			end else if (parser_valid == 1'b1) begin
+			end else if (parser_valid == 1'b1) begin // We have a new packet from the analyzer
 
 				data_count_next = 8'h3f;
 				state_next = STATE_HASHING;
@@ -401,7 +413,7 @@ always @(*) begin
 				ans_ttl_next = ans_ttl;
 				ans_datalen_next = ans_datalen;
 
-				//This is TERRIBLE
+				//This is sometrhing we did to save on time. 
 				ans_addr_next = {ans_addr, ans_addr_2, ans_addr_3, ans_addr_4, ans_addr_5, ans_addr_6, ans_addr_7, ans_addr_8, ans_addr_9, ans_addr_10, ans_addr_11, ans_addr_12, ans_addr_13, ans_addr_14, ans_addr_15, ans_addr_16, ans_addr_17, ans_addr_18, ans_addr_19, ans_addr_20, ans_addr_21, ans_addr_22, ans_addr_23, ans_addr_24, ans_addr_25, ans_addr_26, ans_addr_27, ans_addr_28, ans_addr_29, ans_addr_30, 16'b0};
 
 				ans_aaaa_addr_next = {a4_ans_addr, a4_ans_addr_2, a4_ans_addr_3, a4_ans_addr_4, a4_ans_addr_5, a4_ans_addr_6, a4_ans_addr_7, a4_ans_addr_8};
@@ -421,7 +433,7 @@ always @(*) begin
 
         end
 
-		STATE_HASHING : begin
+		STATE_HASHING : begin //Get a hash of the QNAME for use in addressing
 
 			parser_ready_next = 1'b0;
 
@@ -438,7 +450,7 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_CELLS : begin
+		STATE_CHECK_CELLS : begin //Check to see if there is data in the cell we're looking at
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_we_next = 1'b0;
@@ -455,14 +467,14 @@ always @(*) begin
 				wb_stb_next = 1'b0;
 				wb_cyc_next = 1'b0;
 
-				if (wb_data_i[0] == 1'b1) begin
+				if (wb_data_i[0] == 1'b1) begin //There is data, check if it's the same domain that we just received
 
 					state_next = STATE_CHECK_NAME;
 					intrablock_addr_next = 11'd63;
 
 				end else begin 
 
-					state_next = STATE_WRITE_QNAME;
+					state_next = STATE_WRITE_QNAME; // There is no data, write this domain's info in this cell
 					intrablock_addr_next = 11'b0;
 
 				end
@@ -475,7 +487,7 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_NAME : begin
+		STATE_CHECK_NAME : begin //Check if the name in the cell is the QNAME of the packet we just got
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_we_next = 1'b0;
@@ -486,11 +498,13 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_NAME_WAIT : begin
+		STATE_CHECK_NAME_WAIT : begin 
 
 			if (wb_ack_i) begin 
 
-				if (wb_data_i == 32'h00000000 || (intrablock_addr_reg == 11'b0 && wb_data_i == qry_name_reg[2047:2016]) ) begin
+				//If we've hit all zeroes, we're at the end of the QNAME and have a match, OR, we need to check if the last byte matches in the event that the QNAME
+				//has taken up the entire register with no zero padding. Names are alighed to the end of the register/memory block
+				if (wb_data_i == 32'h00000000 || (intrablock_addr_reg == 11'b0 && wb_data_i == qry_name_reg[2047:2016]) ) begin 
 
 					state_next = STATE_READ_STATS;
 					intrablock_addr_next = 11'd65;
@@ -499,7 +513,7 @@ always @(*) begin
 
 				end else begin
 
-					if (qry_name_reg[ (11'd63 - intrablock_addr_reg) * 32 +: 32] == wb_data_i) begin
+					if (qry_name_reg[ (11'd63 - intrablock_addr_reg) * 32 +: 32] == wb_data_i) begin //If the current 4 bytes of the QNAME matches the current 3 bytes of the memory's QNAME, continue checking
 
 						intrablock_addr_next = intrablock_addr_reg - 1;
 						state_next = STATE_CHECK_NAME;
@@ -507,14 +521,14 @@ always @(*) begin
 
 					end else begin
 
-						if (interblock_addr_reg == 3'b111) begin
+						if (interblock_addr_reg == 3'b111) begin //We did not match and are out of cells, quit and move to offload
 
 							state_next = STATE_OFFLOAD;
 							overflow_next = 1'b1;
 							wb_stb_next = 1'b0;
 							wb_cyc_next = 1'b0;
 
-						end else begin
+						end else begin //We did not match, move to the next cell after this one
 
 							interblock_addr_next = interblock_addr_reg + 1;
 							state_next = STATE_CHECK_CELLS;
@@ -535,7 +549,7 @@ always @(*) begin
 
 		end
 
-        STATE_WRITE_QNAME: begin
+        STATE_WRITE_QNAME: begin //Write the QNAME into an empty cell
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_we_next = 1'b1;
@@ -550,7 +564,7 @@ always @(*) begin
 
 			if (wb_ack_i == 1'b1) begin
 
-				if (data_count_reg == 8'b0) begin
+				if (data_count_reg == 8'b0) begin //We're done writing, move to setting the IN_USE flag
 
 					state_next = STATE_SET_IN_USE;
 					intrablock_addr_next = 11'd64;
@@ -558,7 +572,7 @@ always @(*) begin
 					wb_cyc_next = 1'b0;
 					wb_stb_next = 1'b0;
 
-				end else begin
+				end else begin //Write the next word of QNAME
 
 					state_next = STATE_WRITE_QNAME;
 					wb_cyc_next = 1'b0;
@@ -578,7 +592,7 @@ always @(*) begin
 
         end
 
-		STATE_SET_IN_USE : begin
+		STATE_SET_IN_USE : begin //Set the IN_USE flag in the block
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_data_o_next = 32'b1;
@@ -589,7 +603,7 @@ always @(*) begin
 
 		end
 
-		STATE_SET_IN_USE_W : begin
+		STATE_SET_IN_USE_W : begin //Wait for ACK signal from DRAM then move to a stat read
 
 			if (wb_ack_i) begin
 
@@ -607,7 +621,7 @@ always @(*) begin
 
 		end
 
-		STATE_READ_STATS : begin
+		STATE_READ_STATS : begin //Read in stat block at current address
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_cyc_next = 1'b1;
@@ -617,7 +631,7 @@ always @(*) begin
 
 		end
 
-		STATE_READ_STATS_W : begin
+		STATE_READ_STATS_W : begin //Save the stat block we just read to a register and move to the next block
 
 			if (wb_ack_i) begin
 
@@ -673,7 +687,7 @@ always @(*) begin
 
 					end
 
-					11'd70 : begin
+					11'd70 : begin //Last read, move to writing new stats
 
 						block_cname_count_next = wb_data_i;
 						intrablock_addr_next = 11'd65;
@@ -697,7 +711,7 @@ always @(*) begin
 
 		end
 
-		STATE_UPDATE_STATS : begin
+		STATE_UPDATE_STATS : begin // Write the currently selected stat block
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_cyc_next = 1'b1;
@@ -723,7 +737,7 @@ always @(*) begin
 
 					end
 
-					11'd66 : begin //Can't do this yet, needs to do a QHOST_CHECK first
+					11'd66 : begin 
 
 						wb_data_o_next = block_a_count_reg + ans_a_count_reg;
 						intrablock_addr_next = 11'd68;
@@ -733,7 +747,7 @@ always @(*) begin
 
 					end
 
-					// 11'd67 : begin
+					// 11'd67 : begin //Can't do this yet, needs to do a QHOST_CHECK first
 
 						
 
@@ -759,33 +773,33 @@ always @(*) begin
 
 					end
 
-					11'd70 : begin
+					11'd70 : begin //Move to checking Resource Records next
 
-						if (ans_a_count_reg > 5'b0) begin
+						if (ans_a_count_reg > 5'b0) begin //If we have A records
 
 							state_next = STATE_CHECK_A;
 							intrablock_addr_next = 11'd128;
 
-						end else if (ans_aaaa_count_reg > 3'b0 && (block_aaaa_count_reg + ans_aaaa_count_reg) <= 32'd64) begin
+						end else if (ans_aaaa_count_reg > 3'b0 && (block_aaaa_count_reg + ans_aaaa_count_reg) <= 32'd64) begin //If we have AAAA records and space to store them
 
 							state_next = STATE_CHECK_AAAA;
 							data_count_next = 8'd0;
 							intrablock_addr_next = 11'd512;
 						
-						end else if (ans_aaaa_count_reg > 3'b0 && (block_aaaa_count_reg + ans_aaaa_count_reg) > 32'd64) begin
+						end else if (ans_aaaa_count_reg > 3'b0 && (block_aaaa_count_reg + ans_aaaa_count_reg) > 32'd64) begin //If we have AAAA records but not space, offload
 
 							state_next = STATE_OFFLOAD;
 							overflow_next = 1'b1;
 							wb_stb_next = 1'b0;
 							wb_cyc_next = 1'b0;
 
-						end else if (ans_cname_count_reg > 3'b0 && (block_cname_count_reg + ans_cname_count_reg) <= 32'd4) begin
+						end else if (ans_cname_count_reg > 3'b0 && (block_cname_count_reg + ans_cname_count_reg) <= 32'd4) begin //If we have space for CNAMES (if not, just skip)
 
 							state_next = STATE_CHECK_CNAME;
 							data_count_next = 8'd0;
 							intrablock_addr_next = 11'd831;
 
-						end else begin
+						end else begin //No answers, query only
 
 							state_next = STATE_CHECK_QHOST;
 							intrablock_addr_next = 11'd1024;
@@ -812,7 +826,7 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_A : begin
+		STATE_CHECK_A : begin //Check if we already know about this A record
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_cyc_next = 1'b1;
@@ -826,10 +840,10 @@ always @(*) begin
 
 			if (wb_ack_i == 1'b1) begin
 
-				if (wb_data_i == ans_addr_reg[ 1023 - ( ( ans_a_count - 1 ) *32 ) +: 32 ] ) begin
+				if (wb_data_i == ans_addr_reg[ 1023 - ( ( ans_a_count - 1 ) *32 ) +: 32 ] ) begin //If we have a match...
 
 					//STATISTIC UPDATE
-					if (ans_a_count_reg == 5'b0) begin
+					if (ans_a_count_reg == 5'b0) begin //...and there are no more A records, go to AAAA or CNAME
 
 						if (ans_aaaa_count_reg > 3'b0) begin
 
@@ -837,7 +851,7 @@ always @(*) begin
 							intrablock_addr_next = 11'd512;
 							data_count_next = 8'b0;
 
-						end else if (ans_cname_count_reg > 2'b0) begin
+						end else if (ans_cname_count_reg > 2'b0) begin 
 
 							state_next = STATE_CHECK_CNAME;
 							intrablock_addr_next = 11'd831;
@@ -855,27 +869,27 @@ always @(*) begin
 
 					end else begin
 
-						ans_a_count_next = ans_a_count_reg - 1;
-						state_next = STATE_CHECK_A;
+						ans_a_count_next = ans_a_count_reg - 1; //Reduce A record count (indexes A record register)
+						state_next = STATE_CHECK_A; 
 						intrablock_addr_next = 11'd128;
 
 					end
 
 				end else begin
 
-					if (intrablock_addr_reg == 11'd511) begin
+					if (intrablock_addr_reg == 11'd511) begin //No match and we hit the last A record slot, offload
 
 						state_next = STATE_OFFLOAD;
 						overflow_next = 1'b1;
 						wb_stb_next = 1'b0;
 						wb_cyc_next = 1'b0;
 
-					end else if (wb_data_i == 32'h00000000) begin
+					end else if (wb_data_i == 32'h00000000) begin //No match and an empty slot, write here
 						
 						state_next = STATE_APPEND_A;
 
 						
-					end else begin
+					end else begin //No match and there are still slots left, advance slot number and check again
 
 						state_next = STATE_CHECK_A;
 						intrablock_addr_next = intrablock_addr_reg + 1;
@@ -892,7 +906,7 @@ always @(*) begin
 
 		end
 
-		STATE_APPEND_A : begin
+		STATE_APPEND_A : begin //This is a new A record, add it to the next open slot
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_we_next = 1'b1;
@@ -907,7 +921,7 @@ always @(*) begin
 
 			if (wb_ack_i == 1'b1) begin
 
-				if (ans_a_count_reg == 5'b0) begin
+				if (ans_a_count_reg == 5'b0) begin //No mroe A records, go to AAAA or CNAME if they're there
 
 					if (ans_aaaa_count_reg > 3'b0) begin
 
@@ -931,7 +945,7 @@ always @(*) begin
 					wb_cyc_next = 1'b0;
 					wb_stb_next = 1'b0;
 
-				end else begin
+				end else begin //There are more A records, advance to the next answer and go back to Check state
 
 					wb_cyc_next = 1'b1;
 					wb_stb_next = 1'b1;
@@ -952,7 +966,7 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_AAAA : begin
+		STATE_CHECK_AAAA : begin //Check to see if we already have this AAAA record
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_cyc_next = 1'b1;
@@ -963,15 +977,15 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_AAAA_W : begin
+		STATE_CHECK_AAAA_W : begin 
 
 			if (wb_ack_i == 1'b1) begin
 
-				if (wb_data_i == ans_aaaa_addr_reg[ 1023 - ( ( (ans_aaaa_count_reg - 1) * 4 + data_count_reg )  * 32 ) -: 32 ] ) begin
+				if (wb_data_i == ans_aaaa_addr_reg[ 1023 - ( ( (ans_aaaa_count_reg - 1) * 4 + data_count_reg )  * 32 ) -: 32 ] ) begin //If this quarter is a match....
 
-					if (data_count_reg == 8'd3) begin
+					if (data_count_reg == 8'd3) begin //...and it was the last quarter, then we have a full match. No need to write, just update the stats
 
-						if (ans_aaaa_count_reg-1 == 3'b0) begin
+						if (ans_aaaa_count_reg-1 == 3'b0) begin //No more AAAA, check if we have CNAMEs, otherwise go to QHOST check
 
 							if (ans_cname_count_reg > 2'b0 && (block_cname_count_reg + ans_cname_count_reg) <= 32'd4) begin
 
@@ -990,7 +1004,7 @@ always @(*) begin
 							wb_stb_next = 1'b0;
 							wb_we_next  = 1'b0;
 
-						end else begin
+						end else begin //Check the next AAAA record
 
 							ans_aaaa_count_next = ans_aaaa_count_reg - 1;
 							state_next = STATE_CHECK_AAAA;
@@ -998,7 +1012,7 @@ always @(*) begin
 							data_count_next = 8'b0;
 
 						end
-					end else begin
+					end else begin //Check the next quarter of this AAAA record
 
 						data_count_next = data_count_reg + 1;
 						intrablock_addr_next = intrablock_addr_reg + 1;
@@ -1006,21 +1020,21 @@ always @(*) begin
 
 					end
 
-				end else begin
+				end else begin //Mismatch
 
-					if (intrablock_addr_reg >= 11'd767) begin
+					if (intrablock_addr_reg >= 11'd767) begin //Mismatch with no AAAA slots left, offload
 
 						state_next = STATE_OFFLOAD;
 						overflow_next = 1'b1;
 						wb_stb_next = 1'b0;
 						wb_cyc_next = 1'b0;
 
-					end else if (wb_data_i == 32'h00000000 && data_count_reg == 8'h00) begin
+					end else if (wb_data_i == 32'h00000000 && data_count_reg == 8'h00) begin //mismatch with an empty AAAA slot, write here
 						
 						state_next = STATE_APPEND_AAAA;
 						
 						
-					end else begin
+					end else begin //Mismatch with mroe AAAA slots to check
 
 						state_next = STATE_CHECK_AAAA;
 						intrablock_addr_next = intrablock_addr_reg + 4 - data_count_reg;
@@ -1042,7 +1056,7 @@ always @(*) begin
 
 		end
 
-		STATE_APPEND_AAAA : begin
+		STATE_APPEND_AAAA : begin //Write the AAAA record quarter at the current location
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_we_next = 1'b1;
@@ -1057,21 +1071,21 @@ always @(*) begin
 
 			if (wb_ack_i == 1'b1) begin
 
-				if(data_count_reg == 8'd3) begin
+				if(data_count_reg == 8'd3) begin //Done writing the 4 parts of the record
 
-					if (ans_aaaa_count_reg-1 > 3'b0) begin
+					if (ans_aaaa_count_reg-1 > 3'b0) begin //There are more records to check, advance to the next AAAA record
 
 							state_next = STATE_CHECK_AAAA;
 							intrablock_addr_next = 11'd512;
 							data_count_next = 8'b0;
 
-					end else if (ans_cname_count_reg > 2'b0 && (block_cname_count_reg + ans_cname_count_reg) <= 32'd4) begin
+					end else if (ans_cname_count_reg > 2'b0 && (block_cname_count_reg + ans_cname_count_reg) <= 32'd4) begin //Check CNAMES if there is space 
 
 						state_next = STATE_CHECK_CNAME;
 						data_count_next = 8'd0;
 						intrablock_addr_next = 11'd831;
 
-					end else begin
+					end else begin //Otherwise, check the querying host
 
 						state_next = STATE_CHECK_QHOST;
 
@@ -1079,7 +1093,7 @@ always @(*) begin
 
 					ans_aaaa_count_next = ans_aaaa_count_reg - 1;
 
-				end else begin
+				end else begin //the entire AAAA record hasn't been written yet, write the next 4 bytes
 
 					intrablock_addr_next = intrablock_addr_reg + 1;
 					data_count_next = data_count_reg + 1;
@@ -1099,7 +1113,7 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_CNAME : begin
+		STATE_CHECK_CNAME : begin //Read a portion fo the selected CNAME from the block
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_cyc_next = 1'b1;
@@ -1113,7 +1127,7 @@ always @(*) begin
 
 			if (wb_ack_i) begin 
 
-				if (wb_data_i == 32'h00000000 || (ans_cname_reg[ ( ( (ans_cname_count_reg - 1) * 64 + 8'h3f )  * 32 ) +: 32 ] == wb_data_i && data_count_reg == 8'h3f)) begin
+				if (wb_data_i == 32'h00000000 || (ans_cname_reg[ ( ( (ans_cname_count_reg - 1) * 64 + 8'h3f )  * 32 ) +: 32 ] == wb_data_i && data_count_reg == 8'h3f)) begin //Full Match
 
 					if (data_count_reg == 8'h00) begin //The slot is empty, write this CNAME
 
@@ -1141,25 +1155,25 @@ always @(*) begin
 					wb_stb_next = 1'b0;
 					wb_cyc_next = 1'b0;
 
-				end else begin
+				end else begin //Not a full match
 
-					if (ans_cname_reg[ ( ( (ans_cname_count_reg - 1) * 64 + data_count_reg )  * 32 ) +: 32 ] == wb_data_i) begin
+					if (ans_cname_reg[ ( ( (ans_cname_count_reg - 1) * 64 + data_count_reg )  * 32 ) +: 32 ] == wb_data_i) begin //Partial Match
 
 						intrablock_addr_next = intrablock_addr_reg - 1;
 						data_count_next = data_count_reg + 1;
 						state_next = STATE_CHECK_CNAME;
 
 
-					end else begin
+					end else begin //Mismatch
 
-						if (data_count_reg == 8'h3f) begin
+						if (data_count_reg == 8'h3f) begin //No match, but ignore the collision
 
-							state_next = STATE_OFFLOAD;
+							state_next = STATE_CHECK_QHOST;
 							overflow_next = 1'b1;
 							wb_stb_next = 1'b0;
 							wb_cyc_next = 1'b0;
 
-						end else begin
+						end else begin //Check the next CNAME stored
 
 							intrablock_addr_next = intrablock_addr_reg + 64 + data_count_reg;
 							state_next = STATE_CHECK_CNAME;
@@ -1182,7 +1196,7 @@ always @(*) begin
 
 		end
 
-		STATE_APPEND_CNAME : begin
+		STATE_APPEND_CNAME : begin //Write the CNAME word by word to the open slot
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_we_next = 1'b1;
@@ -1197,16 +1211,16 @@ always @(*) begin
 
 			if (wb_ack_i == 1'b1) begin
 
-				if (data_count_reg == 8'b0) begin
+				if (data_count_reg == 8'b0) begin //Last word written
 
-					if (ans_cname_count_reg-1 == 2'b0) begin
+					if (ans_cname_count_reg-1 == 2'b0) begin //More CNAMEs, go back to check state
 
 						state_next = STATE_CHECK_QHOST;
 						intrablock_addr_next = 11'd1024;
 						wb_cyc_next = 1'b0;
 						wb_stb_next = 1'b0;
 
-					end else begin
+					end else begin //No more resource records at this point, move to querying host check
 
 						state_next = STATE_CHECK_CNAME;
 						data_count_next = 8'd0;
@@ -1216,7 +1230,7 @@ always @(*) begin
 
 					ans_cname_count_next = ans_cname_count_reg - 1;
 
-				end else begin
+				end else begin //Write the next word of the Cname
 
 					state_next = STATE_APPEND_CNAME;
 					wb_cyc_next = 1'b1;
@@ -1238,7 +1252,7 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_QHOST : begin
+		STATE_CHECK_QHOST : begin //See if we already know about this querying host
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_we_next = 1'b0;
@@ -1248,29 +1262,29 @@ always @(*) begin
 
 		end
 
-		STATE_CHECK_QHOST_W : begin
+		STATE_CHECK_QHOST_W : begin 
 
 			if (wb_ack_i) begin
 
-				if (wb_data_i == dest_ip_reg) begin
+				if (wb_data_i == dest_ip_reg) begin //Match, just do a stat update
 
 					state_next = STATE_IDLE;
 					parsed_pkts_next = parsed_pkts_reg + 1;
 
-				end else if (wb_data_i == 32'h00000000) begin
+				end else if (wb_data_i == 32'h00000000) begin //Empty slot, write the host
 
 					state_next = STATE_WRITE_QHOST;
 				
 				end else begin
 
-					if (intrablock_addr_reg == 11'd2047) begin
+					if (intrablock_addr_reg == 11'd2047) begin //No slots left, offload
 
 						state_next = STATE_OFFLOAD;
 						overflow_next = 1'b1;
 						wb_stb_next = 1'b0;
 						wb_cyc_next = 1'b0;
 
-					end else begin
+					end else begin //Check the next slot
 
 						state_next = STATE_CHECK_QHOST;
 						intrablock_addr_next = intrablock_addr_reg + 1;
@@ -1293,7 +1307,7 @@ always @(*) begin
 
 		end
 
-		STATE_WRITE_QHOST : begin
+		STATE_WRITE_QHOST : begin //Write the QHost at the given slot
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_we_next = 1'b1;
@@ -1304,7 +1318,7 @@ always @(*) begin
 
 		end
 
-		STATE_WRITE_QHOST_W : begin
+		STATE_WRITE_QHOST_W : begin //Write the QHost at the given slot
 
 			if (wb_ack_i == 1'b1) begin
 
@@ -1322,7 +1336,7 @@ always @(*) begin
 
 		end
 
-		STATE_READ_QHOST_STAT : begin
+		STATE_READ_QHOST_STAT : begin //Read the unique QHost count from the stat block
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_cyc_next = 1'b1;
@@ -1332,7 +1346,7 @@ always @(*) begin
 
 		end
 
-		STATE_READ_QHOST_STAT_W : begin
+		STATE_READ_QHOST_STAT_W : begin //Read the unique QHost count from the stat block
 
 			if (wb_ack_i == 1'b1) begin
 
@@ -1349,7 +1363,7 @@ always @(*) begin
 
 		end
 
-		STATE_UPDATE_QHOST_STAT: begin
+		STATE_UPDATE_QHOST_STAT: begin //Update the unique QHost count from the stat block
 
 			wb_addr_next = {hash_reg[10:0], interblock_addr_reg, intrablock_addr_reg};
 			wb_cyc_next = 1'b1;
@@ -1359,7 +1373,7 @@ always @(*) begin
 
 		end
 
-		STATE_UPDATE_QHOST_STAT_W: begin
+		STATE_UPDATE_QHOST_STAT_W: begin //Update the unique QHost count from the stat block
 
 			if (wb_ack_i) begin
 
@@ -1378,7 +1392,7 @@ always @(*) begin
 
 		end
 
-		STATE_OFFLOAD : begin
+		STATE_OFFLOAD : begin //Offload the first block over RS232
 
 			state_next = STATE_OFFLOAD;
 

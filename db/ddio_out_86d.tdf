@@ -1,5 +1,5 @@
 --altddio_out CBX_DECLARE_ALL_CONNECTED_PORTS="OFF" DEVICE_FAMILY="Cyclone IV E" POWER_UP_HIGH="OFF" WIDTH=1 datain_h datain_l dataout outclock
---VERSION_BEGIN 22.1 cbx_altddio_out 2022:10:25:15:36:38:SC cbx_cycloneii 2022:10:25:15:36:38:SC cbx_maxii 2022:10:25:15:36:38:SC cbx_mgl 2022:10:25:15:36:55:SC cbx_stratix 2022:10:25:15:36:38:SC cbx_stratixii 2022:10:25:15:36:38:SC cbx_stratixiii 2022:10:25:15:36:38:SC cbx_stratixv 2022:10:25:15:36:38:SC cbx_util_mgl 2022:10:25:15:36:38:SC  VERSION_END
+--VERSION_BEGIN 21.1 cbx_altddio_out 2022:06:23:22:03:45:SJ cbx_cycloneii 2022:06:23:22:03:45:SJ cbx_maxii 2022:06:23:22:03:45:SJ cbx_mgl 2022:06:23:22:04:21:SJ cbx_stratix 2022:06:23:22:03:45:SJ cbx_stratixii 2022:06:23:22:03:45:SJ cbx_stratixiii 2022:06:23:22:03:45:SJ cbx_stratixv 2022:06:23:22:03:45:SJ cbx_util_mgl 2022:06:23:22:03:45:SJ  VERSION_END
 
 
 -- Copyright (C) 2022  Intel Corporation. All rights reserved.

@@ -1,4 +1,7 @@
 // DNS traffic analyzer
+// Written by Senior Design Team, this takes in one register of DNS packet data and pulls out the DNS header values, QNAME/type/class/etc, 
+// A, AAAA, and CNAMEs (as long as they're not compressed). 
+
 module analyzer(
     input  wire rst,
     input  wire clk,
@@ -313,6 +316,8 @@ assign parser_valid = parser_valid_reg;
 always @* begin
     state_next = STATE_IDLE;
 
+
+    //These signal prevent latches from being inferred for the registers/next regs
     pkt_ready_next = 1'b0;
     pkt_next = pkt_reg;
 
@@ -401,10 +406,12 @@ always @* begin
 
     parser_valid_next = parser_valid_reg && !parser_ready;
 
+    // Make decisions for the next state and next register values based on inputs and current values
     case(state_reg)
         STATE_IDLE: begin
             pkt_ready_next = !parser_valid_next;
 
+            // New packet, set all registers to zero to read a new packet's data
             if (pkt_valid == 1'b1) begin
                 a_record_next = 4'b0;
                 pkt_next = pkt;
@@ -494,7 +501,7 @@ always @* begin
         end
 
         STATE_RD_HDR: begin
-            pkt_ready_next = 1'b0;
+            pkt_ready_next = 1'b0; //Take ready low, we're in the middle of processing a new packet
 
             // Latch all the hdr signals at once
             {   hdr_id_next, 
@@ -514,7 +521,7 @@ always @* begin
             source_ip_next = source_ip_i;
             dest_ip_next = dest_ip_i;
             
-
+            // Shift out all of the header data so that the question data is aligned at the top of the packet reg
             pkt_next = pkt_reg << hdr_size;
 
             if (pkt_reg[4063:4048] > 0) begin
@@ -586,7 +593,7 @@ always @* begin
             end
         end
 
-        // Same logic as STATE_RD_QUESTION_NAME
+        // Same logic as STATE_RD_QUESTION_NAME, we don't need this data again
         // STATE_RD_ANSWER_NAME: begin
         //     // Read the queried name in byte by byte until the null terminator is found.
         //     if (pkt_reg[(pkt_size - 1) -: 8] == 8'b0) begin
@@ -966,14 +973,6 @@ always @(posedge clk) begin
 
         parser_valid_reg <= parser_valid_next;
 
-
-        if (state_reg == STATE_IDLE) begin
-
-            
-
-            
-
-        end
     end
 end
 

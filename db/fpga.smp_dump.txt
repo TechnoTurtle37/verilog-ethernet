@@ -1,4 +1,51 @@
 
+State Machine - |fpga|fpga_core:core_inst|axis_uart_v1_0:axis_uart|uart_rx:uart_rx_inst|state
+Name state.STATE_END state.STATE_STOP state.STATE_PAR state.STATE_BYTE state.STATE_START state.STATE_IDLE 
+state.STATE_IDLE 0 0 0 0 0 0 
+state.STATE_START 0 0 0 0 1 1 
+state.STATE_BYTE 0 0 0 1 0 1 
+state.STATE_PAR 0 0 1 0 0 1 
+state.STATE_STOP 0 1 0 0 0 1 
+state.STATE_END 1 0 0 0 0 1 
+
+State Machine - |fpga|fpga_core:core_inst|axis_uart_v1_0:axis_uart|uart_tx:uart_tx_inst|state
+Name state.STATE_END state.STATE_STOP state.STATE_PAR state.STATE_BYTE state.STATE_START state.STATE_IDLE 
+state.STATE_IDLE 0 0 0 0 0 0 
+state.STATE_START 0 0 0 0 1 1 
+state.STATE_BYTE 0 0 0 1 0 1 
+state.STATE_PAR 0 0 1 0 0 1 
+state.STATE_STOP 0 1 0 0 0 1 
+state.STATE_END 1 0 0 0 0 1 
+
+State Machine - |fpga|fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|state_reg
+Name state_reg.STATE_IDLE state_reg.STATE_READ_LAST state_reg.STATE_READ_PKT 
+state_reg.STATE_IDLE 0 0 0 
+state_reg.STATE_READ_PKT 1 0 1 
+state_reg.STATE_READ_LAST 1 1 0 
+
+State Machine - |fpga|fpga_core:core_inst|udp_ip_rx:udp0_ip_rx_inst|state_reg
+Name state_reg.STATE_READ_PAYLOAD_LAST state_reg.STATE_READ_PAYLOAD state_reg.STATE_READ_HEADER state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST 
+state_reg.STATE_IDLE 0 0 0 0 0 
+state_reg.STATE_READ_HEADER 0 0 1 1 0 
+state_reg.STATE_READ_PAYLOAD 0 1 0 1 0 
+state_reg.STATE_READ_PAYLOAD_LAST 1 0 0 1 0 
+state_reg.STATE_WAIT_LAST 0 0 0 1 1 
+
+State Machine - |fpga|fpga_core:core_inst|ip_eth_rx:ip0_eth_rx_inst|state_reg
+Name state_reg.STATE_READ_PAYLOAD_LAST state_reg.STATE_READ_PAYLOAD state_reg.STATE_READ_HEADER state_reg.STATE_IDLE state_reg.STATE_WAIT_LAST 
+state_reg.STATE_IDLE 0 0 0 0 0 
+state_reg.STATE_READ_HEADER 0 0 1 1 0 
+state_reg.STATE_READ_PAYLOAD 0 1 0 1 0 
+state_reg.STATE_READ_PAYLOAD_LAST 1 0 0 1 0 
+state_reg.STATE_WAIT_LAST 0 0 0 1 1 
+
+State Machine - |fpga|fpga_core:core_inst|axis_tap:axis_tap0|state_reg
+Name state_reg.STATE_WAIT state_reg.STATE_TRUNCATE state_reg.STATE_TRANSFER state_reg.STATE_IDLE 
+state_reg.STATE_IDLE 0 0 0 0 
+state_reg.STATE_TRANSFER 0 0 1 1 
+state_reg.STATE_TRUNCATE 0 1 0 1 
+state_reg.STATE_WAIT 1 0 0 1 
+
 State Machine - |fpga|fpga_core:core_inst|eth_mac_1g_rgmii_fifo:eth_mac_inst1|eth_mac_1g_rgmii:eth_mac_1g_rgmii_inst|eth_mac_1g:eth_mac_1g_inst|axis_gmii_tx:axis_gmii_tx_inst|state_reg
 Name state_reg.STATE_IFG state_reg.STATE_WAIT_END state_reg.STATE_FCS state_reg.STATE_PAD state_reg.STATE_LAST state_reg.STATE_PAYLOAD state_reg.STATE_PREAMBLE state_reg.STATE_IDLE 
 state_reg.STATE_IDLE 0 0 0 0 0 0 0 0 

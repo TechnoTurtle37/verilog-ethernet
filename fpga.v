@@ -1,3 +1,4 @@
+// Heavily modified by us, used as an outline for board level connections
 /*
 
 Copyright (c) 2020 Alex Forencich
@@ -78,6 +79,7 @@ module fpga (
 	output wire		   UART_TXD,
 	input wire 		   UART_RXD,
 
+    //SDRAM signals to board
     output wire	[12:0]	DRAM_ADDR,
     output wire	[1:0]	DRAM_BA,
     output wire		    DRAM_CAS_N,
@@ -108,6 +110,7 @@ wire pll_locked;
 
 wire clk90_int;
 
+// PLL for Eth MACs/Phys, takes in 50MHZ, creates 125MHz
 altpll #(
     .bandwidth_type("AUTO"),
     .clk0_divide_by(2),
@@ -303,6 +306,7 @@ core_inst (
     .dram_we_n(DRAM_WE_N)
 );
 
+//PLL for SDRAM, takes in 50MHz, outputs 133MHz
 altplldram	altplldram_inst (
 	.areset ( pll_rst ),
 	.inclk0 ( CLOCK_50 ),

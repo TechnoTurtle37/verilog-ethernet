@@ -1,7 +1,11 @@
-// Language: Verilog 2001
+// Written by Senior Design team
+// This file/module was created to make the development of later modules easier. 
+// We would not reccomend doing this in a final design, as the timing implications of making a 4096 bit register are 
+// not trivial. We could stream this data in to the analyzer, but that would comnplicate the analyzer, which
+// we did not have development time for.
 
 /*
- * UDP ethernet frame receiver (UDP Frame in, DNS Data out to RAM)
+ * UDP ethernet frame receiver (UDP Frame in, DNS Data out)
  */
 module dns_ip_rx
 (
@@ -24,27 +28,14 @@ module dns_ip_rx
     input  wire        s_udp_payload_axis_tlast,
     input  wire        s_udp_payload_axis_tuser,
 
-    /*
-     * Memoy Output
-     */
-    // output wire [22:0] addr_i,
-    // input wire [31:0] dat_i,
-    // output wire [31:0] dat_o,
-    // output wire we_i,
-    // input wire ack_o,
-    // output wire stb_i,
-    // output wire cyc_i
+
     output wire         m_dns_valid,
     input wire          m_dns_ready,
     output wire [31:0]  m_udp_src_ip,
     output wire [31:0]  m_udp_dst_ip,
     output wire [15:0]  m_udp_length,
     output wire [4095:0]m_dns_pkt
-    // output wire [7:0]   m_dns_axis_tdata,
-    // output wire         m_dns_axis_tvalid,
-    // input  wire         m_dns_axis_tready,
-    // output wire         m_dns_axis_tlast,
-    // output wire         m_dns_axis_tuser
+
 
 
 );
@@ -102,9 +93,10 @@ always @* begin
         STATE_IDLE: begin
             // wait for header
             data_count_next = 14'h8;
-            
-            s_udp_hdr_ready_next = !m_dns_valid_next;
-            
+
+            //If our valid isn't high, then we aren't waiting for the next stage to pull data in, so we can continue
+            s_udp_hdr_ready_next = !m_dns_valid_next; 
+
             if (s_udp_hdr_ready && s_udp_hdr_valid) begin
                 s_udp_hdr_ready_next = 1'b0;
                 s_udp_payload_axis_tready_next = 1'b1;
@@ -114,6 +106,7 @@ always @* begin
                 state_next = STATE_IDLE;
             end
         end
+
 
         STATE_READ_PKT: begin
             s_udp_payload_axis_tready_next = 1'b1;

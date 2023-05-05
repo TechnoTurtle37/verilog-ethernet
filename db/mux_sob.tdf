@@ -1,5 +1,5 @@
 --lpm_mux CBX_DECLARE_ALL_CONNECTED_PORTS="OFF" DEVICE_FAMILY="Cyclone IV E" LPM_SIZE=16 LPM_WIDTH=9 LPM_WIDTHS=4 data result sel
---VERSION_BEGIN 22.1 cbx_lpm_mux 2022:10:25:15:36:38:SC cbx_mgl 2022:10:25:15:36:55:SC  VERSION_END
+--VERSION_BEGIN 21.1 cbx_lpm_mux 2022:06:23:22:03:45:SJ cbx_mgl 2022:06:23:22:04:21:SJ  VERSION_END
 
 
 -- Copyright (C) 2022  Intel Corporation. All rights reserved.

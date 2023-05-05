@@ -1201,12 +1201,12 @@ set_location_assignment PIN_F14 -to EX_IO[4]
 set_location_assignment PIN_E10 -to EX_IO[5]
 set_location_assignment PIN_D9 -to EX_IO[6]
 
-set_global_assignment -name LAST_QUARTUS_VERSION "22.1std.0 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "21.1.1 Lite Edition"
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
-set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE stp3.stp
 set_instance_assignment -name VIRTUAL_PIN ON -to "fpga_core:core_inst|rx_udp0_eth_src_mac"
 set_instance_assignment -name VIRTUAL_PIN ON -to "fpga_core:core_inst|rx_udp0_dest_port"
@@ -1360,4 +1360,333 @@ set_global_assignment -name VERILOG_FILE debounce_switch.v
 set_global_assignment -name SIGNALTAP_FILE stp1.stp
 set_global_assignment -name QIP_FILE altplldram.qip
 set_global_assignment -name SIGNALTAP_FILE stp3.stp
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to "fpga_core:core_inst|clk_dram_c" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_ready" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_valid" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|s_udp_hdr_ready" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|s_udp_hdr_valid" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|s_udp_payload_axis_tready" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|s_udp_payload_axis_tvalid" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3840]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3841]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3842]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3843]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3844]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3845]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3846]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3847]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3848]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3849]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3850]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3851]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3852]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3853]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3854]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3855]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3856]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3857]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3858]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3859]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3860]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3861]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3862]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3863]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[24] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3864]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[25] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3865]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[26] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3866]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[27] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3867]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[28] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3868]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[29] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3869]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[30] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3870]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[31] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3871]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[32] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3872]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[33] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3873]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[34] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3874]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[35] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3875]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[36] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3876]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[37] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3877]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[38] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3878]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[39] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3879]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[40] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3880]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[41] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3881]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[42] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3882]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[43] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3883]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[44] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3884]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[45] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3885]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[46] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3886]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[47] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3887]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[48] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3888]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[49] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3889]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[50] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3890]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[51] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3891]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[52] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3892]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[53] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3893]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[54] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3894]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[55] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3895]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[56] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3896]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[57] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3897]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[58] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3898]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[59] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3899]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[60] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3900]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[61] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3901]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[62] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3902]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[63] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3903]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[64] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3904]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[65] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3905]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[66] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3906]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[67] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3907]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[68] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3908]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[69] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3909]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[70] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3910]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[71] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3911]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[72] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3912]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[73] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3913]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[74] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3914]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[75] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3915]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[76] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3916]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[77] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3917]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[78] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3918]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[79] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3919]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[80] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3920]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[81] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3921]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[82] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3922]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[83] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3923]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[84] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3924]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[85] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3925]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[86] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3926]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[87] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3927]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[88] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3928]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[89] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3929]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[90] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3930]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[91] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3931]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[92] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3932]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[93] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3933]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[94] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3934]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[95] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3935]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[96] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3936]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[97] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3937]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[98] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3938]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[99] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3939]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[100] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3940]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[101] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3941]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[102] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3942]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[103] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3943]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[104] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3944]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[105] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3945]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[106] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3946]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[107] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3947]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[108] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3948]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[109] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3949]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[110] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3950]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[111] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3951]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[112] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3952]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[113] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3953]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[114] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3954]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[115] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3955]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[116] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3956]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[117] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3957]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[118] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3958]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[119] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3959]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[120] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3960]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[121] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3961]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[122] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3962]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[123] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3963]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[124] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3964]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[125] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3965]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[126] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3966]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[127] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3967]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[128] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3968]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[129] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3969]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[130] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3970]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[131] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3971]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[132] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3972]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[133] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3973]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[134] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3974]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[135] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3975]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[136] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3976]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[137] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3977]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[138] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3978]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[139] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3979]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[140] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3980]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[141] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3981]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[142] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3982]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[143] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3983]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[144] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3984]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[145] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3985]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[146] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3986]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[147] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3987]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[148] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3988]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[149] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3989]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[150] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3990]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[151] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3991]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[152] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3992]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[153] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3993]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[154] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3994]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[155] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3995]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[156] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3996]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[157] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3997]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[158] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3998]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[159] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[3999]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[160] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4000]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[161] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4001]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[162] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4002]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[163] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4003]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[164] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4004]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[165] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4005]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[166] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4006]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[167] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4007]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[168] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4008]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[169] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4009]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[170] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4010]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[171] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4011]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[172] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4012]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[173] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4013]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[174] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4014]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[175] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4015]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[176] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4016]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[177] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4017]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[178] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4018]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[179] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4019]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[180] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4020]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[181] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4021]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[182] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4022]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[183] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4023]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[184] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4024]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[185] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4025]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[186] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4026]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[187] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4027]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[188] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4028]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[189] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4029]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[190] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4030]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[191] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4031]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[192] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4032]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[193] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4033]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[194] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4034]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[195] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4035]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[196] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4036]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[197] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4037]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[198] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4038]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[199] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4039]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[200] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4040]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[201] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4041]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[202] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4042]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[203] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4043]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[204] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4044]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[205] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4045]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[206] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4046]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[207] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4047]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[208] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4048]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[209] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4049]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[210] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4050]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[211] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4051]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[212] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4052]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[213] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4053]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[214] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4054]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[215] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4055]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[216] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4056]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[217] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4057]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[218] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4058]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[219] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4059]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[220] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4060]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[221] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4061]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[222] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4062]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[223] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4063]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[224] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4064]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[225] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4065]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[226] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4066]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[227] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4067]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[228] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4068]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[229] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4069]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[230] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4070]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[231] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4071]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[232] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4072]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[233] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4073]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[234] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4074]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[235] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4075]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[236] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4076]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[237] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4077]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[238] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4078]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[239] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4079]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[240] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4080]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[241] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4081]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[242] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4082]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[243] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4083]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[244] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4084]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[245] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4085]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[246] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4086]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[247] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4087]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[248] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4088]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[249] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4089]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[250] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4090]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[251] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4091]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[252] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4092]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[253] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4093]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[254] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4094]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[255] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_pkt[4095]" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[256] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_ready" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[257] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|m_dns_valid" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[258] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|s_udp_hdr_ready" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[259] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|s_udp_hdr_valid" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[260] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|s_udp_payload_axis_tready" -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[261] -to "fpga_core:core_inst|dns_ip_rx:dns0_ip_rx_inst|s_udp_payload_axis_tvalid" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=262" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=6" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=262" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334528" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=0000000000000000000000000000000000000" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=37" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=32" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INCREMENTAL_ROUTING=1" -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[1] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[2] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[5] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[8] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[10] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[11] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[13] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[16] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=64" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_COUNTER_PIPELINE=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id auto_signaltap_0
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name SLD_FILE db/stp3_auto_stripped.stp

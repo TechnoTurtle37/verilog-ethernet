@@ -64,7 +64,7 @@
  -- Pin directions (input, output or bidir) are based on device operating in user mode.
  ---------------------------------------------------------------------------------
 
-Quartus Prime Version 22.1std.0 Build 915 10/25/2022 SC Lite Edition
+Quartus Prime Version 21.1.1 Build 850 06/23/2022 SJ Lite Edition
 CHIP  "fpga"  ASSIGNED TO AN: EP4CE115F29C7
 
 Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage : I/O Bank  : User Assignment
@@ -657,10 +657,10 @@ DRAM_ADDR[3]                 : P1        : output : 3.3-V LVTTL       :         
 DRAM_DQ[18]                  : P2        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
 ~ALTERA_DCLK~                : P3        : output : 3.3-V LVTTL       :         : 1         : N              
 nCONFIG                      : P4        :        :                   :         : 1         :                
-TCK                          : P5        : input  :                   :         : 1         :                
-TDO                          : P6        : output :                   :         : 1         :                
-TDI                          : P7        : input  :                   :         : 1         :                
-TMS                          : P8        : input  :                   :         : 1         :                
+altera_reserved_tck          : P5        : input  : 3.3-V LVTTL       :         : 1         : N              
+altera_reserved_tdo          : P6        : output : 3.3-V LVTTL       :         : 1         : N              
+altera_reserved_tdi          : P7        : input  : 3.3-V LVTTL       :         : 1         : N              
+altera_reserved_tms          : P8        : input  : 3.3-V LVTTL       :         : 1         : N              
 VCCINT                       : P9        : power  :                   : 1.2V    :           :                
 GND                          : P10       : gnd    :                   :         :           :                
 VCCINT                       : P11       : power  :                   : 1.2V    :           :                

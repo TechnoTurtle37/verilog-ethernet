@@ -60,6 +60,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "UART_TXD",
+					"strict" : false
+				},
+				{
 					"name" : "KEY[3]",
 					"strict" : false
 				},
@@ -109,6 +113,22 @@
 				},
 				{
 					"name" : "ENET0_RX_DATA[3]",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tms",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tck",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tdi",
+					"strict" : false
+				},
+				{
+					"name" : "altera_reserved_tdo",
 					"strict" : false
 				}
 			]
